@@ -47,8 +47,6 @@ public class OI {
 	Joystick leftstick;
 	
 	//Button switchToPlayback;
-	Button recordation;
-	Button playbackation;
 	
 	public void init() {
 		rightstick = new Joystick(1);
