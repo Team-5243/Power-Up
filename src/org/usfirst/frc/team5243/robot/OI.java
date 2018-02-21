@@ -4,59 +4,76 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc.team5243.robot;
+
+
+import org.usfirst.frc.team5243.robot.commands.ClimbCommandTeleop;
+import org.usfirst.frc.team5243.robot.commands.CubeCommand;
+import org.usfirst.frc.team5243.robot.commands.CubeToggle;
+
+//import org.usfirst.frc.team5243.robot.commands.ClimbCommand;
+//import org.usfirst.frc.team5243.robot.commands.CubeCommand;
+//import org.usfirst.frc.team5243.robot.commands.CubeToggle;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	//// CREATING BUTTONS
-	// One type of button is a joystick button which is any button on a
-	//// joystick.
-	// You create one by telling it which joystick it's on and which button
-	// number it is.
-	// Joystick stick = new Joystick(port);
-	// Button button = new JoystickButton(stick, buttonNumber);
 
-	// There are a few additional built in buttons you can use. Additionally,
-	// by subclassing Button you can create custom triggers and bind those to
-	// commands the same as any other Button.
-
-	//// TRIGGERING COMMANDS WITH BUTTONS
-	// Once you have a button, it's trivial to bind it to a button in one of
-	// three ways:
-
-	// Start the command when the button is pressed and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenPressed(new ExampleCommand());
-
-	// Run the command while the button is being held down and interrupt it once
-	// the button is released.
-	// button.whileHeld(new ExampleCommand());
-
-	// Start the command when the button is released and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenReleased(new ExampleCommand());
+	
 	Joystick rightstick;
 	Joystick leftstick;
+	Button lift;
+	Button lower;
+	Button cubeSol;
+	Button cubeExtend;
+	Button cubeRetract;
+
+		// Button switchToPlayback;
 	
-	//Button switchToPlayback;
-	
+	/**
+	 * Initializes the joysticks and buttons. Assigns buttons to commands.
+	 */
 	public void init() {
 		rightstick = new Joystick(1);
 		leftstick = new Joystick(0);
+		//piston = new JoystickButton(leftstick, 4);
+		//buttons assocated with potentiometers for the dart actuators used for extending the arm and pushing the cube mechanism
+		lift = new JoystickButton(rightstick, 5);
+		lower = new JoystickButton(rightstick, 3);
+		
+		cubeSol = new JoystickButton(rightstick, 1);
+		
+		cubeExtend = new JoystickButton(rightstick, 6);
+		cubeRetract = new JoystickButton(rightstick, 4);
+		
+		lift.whileHeld(new ClimbCommandTeleop(true));
+		lower.whileHeld(new ClimbCommandTeleop(false));
+		
+		cubeExtend.whileHeld(new CubeCommand(true));
+		cubeRetract.whileHeld(new CubeCommand(false));
+
+		cubeSol.whenPressed(new CubeToggle());	
 	}
 	
+	/**
+	 * Gets the left joystick
+	 * @return the left joystick
+	 */
 	public Joystick getLeftStick() {
 		return leftstick;
 	}
 	
+	/**
+	 * Gets the right joystick
+	 * @return the rightstick
+	 */
 	public Joystick getRightStick() {
 		return rightstick;
 	}

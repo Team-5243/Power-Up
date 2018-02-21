@@ -1,4 +1,4 @@
-package org.usfirst.frc.team5243.robot.commands;
+package org.usfirst.frc.team5243.robot.commands.auton;
 
 import org.usfirst.frc.team5243.robot.Robot;
 import org.usfirst.frc.team5243.robot.subsystems.DriveSubsystem;
@@ -8,34 +8,38 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TankDrive extends Command {
+public class DriveStraight extends Command {
 	
 	DriveSubsystem driveSubsystem;
-
+	double dis;
+	boolean isFinished;
 	/**
-	 * Command for running tank drive
+	 * Command for driving the robot straight
+	 * @param distance the distance the robot should drive straight
 	 */
-    public TankDrive() {
+    public DriveStraight(double distance) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	//crating new instance of DriveSubsystem to use in this command
+    	dis = distance;
     	driveSubsystem = Robot.driveSubsystem;
     	requires(driveSubsystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	driveSubsystem.driveStraight(dis);
+    	isFinished = true;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	driveSubsystem.tankDrive();
-    	//calls tankDRive method whch is written in Drive Subsystem
+    	System.out.println("DriveStraight is running");
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isFinished;
     }
 
     // Called once after isFinished returns true

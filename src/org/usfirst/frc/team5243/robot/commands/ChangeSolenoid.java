@@ -1,41 +1,43 @@
 package org.usfirst.frc.team5243.robot.commands;
 
 import org.usfirst.frc.team5243.robot.Robot;
-import org.usfirst.frc.team5243.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
-public class TankDrive extends Command {
-	
-	DriveSubsystem driveSubsystem;
 
+
+
+public class ChangeSolenoid extends Command {
+
+	Value direction;
+	CubeSubsystem cubeSubsystem;
+	
 	/**
-	 * Command for running tank drive
+	 * Contructor for changing the state of the solenoid
+	 * @param on the state the solenoid should be
 	 */
-    public TankDrive() {
+    public ChangeSolenoid(Value direction) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	//crating new instance of DriveSubsystem to use in this command
-    	driveSubsystem = Robot.driveSubsystem;
-    	requires(driveSubsystem);
+    	this.direction = direction;
+    	cubeSubsystem = Robot.cubeSubsystem;
+    	requires(cubeSubsystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    }
+    	cubeSubsystem.setSolenoid(direction);
+    } 
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	driveSubsystem.tankDrive();
-    	//calls tankDRive method whch is written in Drive Subsystem
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
