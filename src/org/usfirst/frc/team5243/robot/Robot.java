@@ -7,13 +7,20 @@
 
 package org.usfirst.frc.team5243.robot;
 
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.DriveToBaseline;
 import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_ScaleCloser;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_SwitchCloser;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos2_SwitchLeft;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos2_SwitchRight;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_ScaleCloser;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_SwitchCloser;
 import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 //import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
 //import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.DriveSubsystem;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -52,6 +59,7 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		SmartDashboard.putNumber("Position", 1);
+		CameraServer.getInstance().startAutomaticCapture(0);
 		gameData = "R";/*DriverStation.getInstance().getGameSpecificMessage();*/
 
 	}
@@ -94,9 +102,9 @@ public class Robot extends TimedRobot {
 		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
 		 * ExampleCommand(); break; }
 		 */
-/*
+
 		// schedule the autonomous command (example)
-		int position = 2;/*(int) SmartDashboard.getNumber("Position", 4);
+		int position = (int) SmartDashboard.getNumber("Position", 4);
 		switch (position) {
 		case 1:
 			if(gameData.length() > 0){
@@ -105,9 +113,14 @@ public class Robot extends TimedRobot {
 					System.out.println("on our side");
 					driveCommand.start();
 				}
+				else if(gameData.charAt(1) == 'L') {
+					driveCommand = new Pos1_ScaleCloser();
+					System.out.println("scale on our side");
+					driveCommand.start();
+				}
 				else {
 					driveCommand = new DriveToBaseline();
-					System.out.println("not on our side");
+					System.out.println("The force is not on our side");
 					driveCommand.start();
 				}
 			}
@@ -132,23 +145,25 @@ public class Robot extends TimedRobot {
 				break;
 			case 3:
 				if(gameData.length() > 0){
-					if(gameData.charAt(1) == 'R'){
-						driveCommand = new Pos3_ScaleCloser();
+					if(gameData.charAt(0) == 'R'){
+						driveCommand = new Pos3_SwitchCloser();
 						driveCommand.start();
 					} 
-					else {
-						driveCommand = new Pos3_ScaleFarther();
+					else if(gameData.charAt(1) == 'R'){
+						driveCommand = new Pos3_ScaleCloser();
 						driveCommand.start();
+					}
+					else {
+						driveCommand = new DriveToBaseline();
+						driveCommand.start();
+						
 					}
 				break;
 				}
-				else {
-					driveCommand = new DriveToBaseline();
-					driveCommand.start();
-				}
+				
 		}
 			
-*/
+
 		}
 
 		/**
