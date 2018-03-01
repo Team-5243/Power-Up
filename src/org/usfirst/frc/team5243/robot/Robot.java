@@ -182,7 +182,7 @@ public class Robot extends TimedRobot {
 			// continue until interrupted by another command, remove
 			// this line or comment it out.
 			SmartDashboard.putNumber("Accel", driveSubsystem.getAcceleration());
-			cubeSubsystem.setClosedLoopControl();
+			//cubeSubsystem.setClosedLoopControl();
 		}
 
 		/**
@@ -194,6 +194,7 @@ public class Robot extends TimedRobot {
 			//System.out.println("right Voltage: "+climbSubsystem.rightPot.getVoltage());
 			//System.out.println("leftVoltage: "+climbSubsystem.leftPot.getVoltage());
 			System.out.println("Cube Pot: " + cubeSubsystem.getPot().getVoltage());
+			cubeSubsystem.setClosedLoopControl();
 		}
 
 		/**

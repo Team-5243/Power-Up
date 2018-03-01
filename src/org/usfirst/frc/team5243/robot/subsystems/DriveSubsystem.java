@@ -228,30 +228,36 @@ public class DriveSubsystem extends Subsystem {
 	}
 
 	public void autoCorrect(double degrees) {
-		/*double degOfFreedom = 4;
-		int sign = 1;
-		if (degrees < 0) {
-			sign = -1;
-			degrees += 10;
-		} else {
-			degrees -= 5;
-		}
-		gyro.zeroYaw();
-		System.out.println(gyrso.getYaw());
-		double lowerBound = degrees - degOfFreedom;
-		double upperBound = degrees + degOfFreedom;
-		while (true) {
-			System.out.println(gyro.getYaw());
-			drive.tankDrive(sign * .5, sign * -.5);
-			Timer.delay(.01);
-			if (gyro.getYaw() >= lowerBound && gyro.getYaw() <= upperBound) {
-				break;
-			}
-		}
-		stopMotors();*/
 		if (degrees < 0) rotateRight(degrees); 
 		else rotateLeft(-degrees);
 		
+	}
+	
+	double leftSpeed = .6;
+	double rightSpeed = .6;
+	public void testAutoCorrect(double degrees, double startYaw) {
+		if (degrees > 0) {
+			rightSpeed += 0.05;
+		} else if (degrees < 0){
+			leftSpeed += .05;
+		}
+		int degOfFreedom = 2;
+		if (Math.abs(degrees - startYaw) <= degOfFreedom) {
+			rightSpeed = .6;
+			leftSpeed = .6;
+		}
+	}
+
+	public void testDriveStraight(double distance) {
+		double startYaw = gyro.getYaw();
+		double mult = -80;
+		encoder.reset();
+		while (encoder.getDistance() / mult <= distance) {
+			testAutoCorrect(gyro.getYaw(), startYaw);
+			drive.tankDrive(leftSpeed, rightSpeed);
+			Timer.delay(.01);
+		}
+		stopMotors();
 	}
 
 }

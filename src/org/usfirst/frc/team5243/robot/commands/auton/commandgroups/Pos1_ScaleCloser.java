@@ -2,7 +2,6 @@ package org.usfirst.frc.team5243.robot.commands.auton.commandgroups;
 
 import org.usfirst.frc.team5243.robot.commands.ChangeSolenoid;
 import org.usfirst.frc.team5243.robot.commands.ClimbCommandAuton;
-import org.usfirst.frc.team5243.robot.commands.CubeCommand;
 import org.usfirst.frc.team5243.robot.commands.auton.DriveStraight;
 import org.usfirst.frc.team5243.robot.commands.auton.TurnRight;
 

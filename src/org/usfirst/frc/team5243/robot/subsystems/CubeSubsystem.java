@@ -16,7 +16,8 @@ public class CubeSubsystem extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	DoubleSolenoid solenoid;
+	DoubleSolenoid solenoidCUBE; //clamp piston
+	DoubleSolenoid solenoidELEV; //elevator piston
 	AnalogInput potentiometer;
 	WPI_TalonSRX actuator;
 	
@@ -27,7 +28,9 @@ public class CubeSubsystem extends Subsystem {
 	 * The cube subsystem that relates to the cube mechanism.
 	 */
 	public CubeSubsystem() {
-		solenoid = new DoubleSolenoid(RobotMap.cubeSolenoidF, RobotMap.cubeSolenoidR);
+		solenoidCUBE = new DoubleSolenoid(RobotMap.cubeSolenoidCubeF, RobotMap.cubeSolenoidCubeR);
+		solenoidELEV = new DoubleSolenoid(RobotMap.cubeSolenoidElevF, RobotMap.cubeSolenoidElevR);
+		
 		actuator = new WPI_TalonSRX(RobotMap.cubeActuator);
 		actuator.setSafetyEnabled(false);
 		potentiometer = new AnalogInput(RobotMap.cubePotentiometer);
@@ -35,6 +38,7 @@ public class CubeSubsystem extends Subsystem {
 		try {
 			compressor = new Compressor();
 			compressor.start();
+			//compressor.setClosedLoopControl(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -92,28 +96,42 @@ public class CubeSubsystem extends Subsystem {
 	 * @param on Solenoid is on or off depending on whether "on" is true or false
 	 */
 	public void setSolenoid(Value direction) {
-		solenoid.set(direction);
+		solenoidCUBE.set(direction);
 	}
 
 	/**
-	 * Toggles the solenoid between the on and off state
+	 * Toggles the cube solenoid between the on and off state
 	 */
-	public void toggle() {
-		if (solenoid.get().equals(Value.kReverse) || solenoid.get().equals(Value.kOff))
-			solenoid.set(Value.kForward);
+	public void toggleCube() {
+		if (solenoidCUBE.get().equals(Value.kReverse) || solenoidCUBE.get().equals(Value.kOff))
+			solenoidCUBE.set(Value.kForward);
 		else
-			solenoid.set(Value.kReverse);
+			solenoidCUBE.set(Value.kReverse);
+	}
+	
+	public void toggleElev() {
+		if (solenoidELEV.get().equals(Value.kReverse) || solenoidELEV.get().equals(Value.kOff))
+			solenoidELEV.set(Value.kForward);
+		else
+			solenoidELEV.set(Value.kReverse);
 	}
 	
 	public void setClosedLoopControl() {
 		if (compressor != null)
 			compressor.setClosedLoopControl(true);
 	}
+	
+	public void disableCompressor() {
+		compressor.stop();
+	}
+	
 	public void stop() {
 		actuator.set(0);
 	}
-	public DoubleSolenoid getSolenoid() {
-		return solenoid;
+	public DoubleSolenoid getSolenoidCube() {
+		return solenoidCUBE;
 	}
-
+	public DoubleSolenoid getSolenoidElev() {
+		return solenoidELEV;
+	}
 }
