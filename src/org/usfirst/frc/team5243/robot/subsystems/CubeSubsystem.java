@@ -61,7 +61,7 @@ public class CubeSubsystem extends Subsystem {
 	 * Extends the cube mechanism
 	 */
 	public void extend() {
-		if((potentiometer.getVoltage() < 4.3) && leftPot.getVoltage() > .3)  //may need to change .3 to something smaller. Must be bigger than .15
+		if((potentiometer.getVoltage() < 4.3) && (leftPot.getVoltage() > .3 || leftPot.getVoltage() > 3.5) && (rightPot.getVoltage() > .3 || rightPot.getVoltage() > 3.5))  //may need to change .3 to something smaller. Must be bigger than .15
 			actuator.set(1);
 		else actuator.set(0);
 	}
