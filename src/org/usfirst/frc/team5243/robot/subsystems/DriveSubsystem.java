@@ -110,7 +110,7 @@ public class DriveSubsystem extends Subsystem {
 	/**
 	 * Every 1 and a half inches decrements the speed by .1
 	 */
-	public void softStop() {
+	/*public void softStop() {
 		double motorSpeed = .8;
 		double mult = -100;
 		while(motorSpeed > 0) {
@@ -121,7 +121,7 @@ public class DriveSubsystem extends Subsystem {
 				motorSpeed-=.1;
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * Sets the yaw of the gyro to 0
@@ -178,8 +178,67 @@ public class DriveSubsystem extends Subsystem {
 			autoCorrect(curYaw - lastYaw);
 			lastYaw = curYaw;
 		}
-		//softStop();
 		stopMotors();
+	}
+	
+	public void softStop() {
+		double speed = .8;
+		double lastYaw = gyro.getYaw();
+		double mult = -80;
+		
+		//double startEncoderPos = encoder.getDistance();
+		encoder.reset();
+		while (encoder.getDistance() / mult <= 8) {
+			//System.out.println(encoder.getDistance()+" "+encoder.getDistance()/mult+" "+ );
+			Timer.delay(.5);
+			speed -= .1;
+			drive.tankDrive(speed, speed);
+			Timer.delay(.01);
+			double curYaw = gyro.getYaw();
+			autoCorrect(curYaw - lastYaw);
+			lastYaw = curYaw;
+		}
+		stopMotors();	
+	}
+	
+	public void softStart(){
+		double speed = 0;
+		double lastYaw = gyro.getYaw();
+		double mult = -80;
+		
+		encoder.reset();
+		while(encoder.getDistance() / mult <= 8) {
+			Timer.delay(.5);
+			speed += .1;
+			drive.tankDrive(speed, speed);
+			Timer.delay(.01);
+			double curYaw = gyro.getYaw();
+			autoCorrect(curYaw - lastYaw);
+			lastYaw = curYaw;
+		}
+		stopMotors();
+	}
+	public double calcSoftSpeed(double totalDistance) { //Based on the Gaussian function
+		double mult = -80;
+		double maxSpeed = .8;
+		double currentPosition = encoder.getDistance() / mult;
+		double origMidSpeed = Math.pow(Math.E, - totalDistance / 4);
+		double normalizingMidSpeed = 1 - origMidSpeed;
+		return (maxSpeed * (Math.pow(Math.E, - (Math.pow(currentPosition - (totalDistance/2),2)) / totalDistance)
+				- origMidSpeed)) / normalizingMidSpeed;
+	}
+	
+
+	public void softMovement(double dis) {
+		double mult = -80;
+		double speed;
+		
+		encoder.reset();
+		while(encoder.getDistance() / mult <= dis) {
+			speed = calcSoftSpeed(dis);
+			drive.tankDrive(speed, speed);
+		}
+		
 	}
 
 	/**
