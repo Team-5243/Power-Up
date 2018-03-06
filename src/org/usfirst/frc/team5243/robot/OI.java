@@ -10,6 +10,7 @@ package org.usfirst.frc.team5243.robot;
 import org.usfirst.frc.team5243.robot.commands.ClimbCommandTeleop;
 import org.usfirst.frc.team5243.robot.commands.CubeCommand;
 import org.usfirst.frc.team5243.robot.commands.CubeToggle;
+import org.usfirst.frc.team5243.robot.commands.ElevatorToggle;
 
 //import org.usfirst.frc.team5243.robot.commands.ClimbCommand;
 //import org.usfirst.frc.team5243.robot.commands.CubeCommand;
@@ -34,7 +35,8 @@ public class OI {
 	Button cubeSol;
 	Button cubeExtend;
 	Button cubeRetract;
-
+	Button elevSol;
+	
 		// Button switchToPlayback;
 	
 	/**
@@ -49,6 +51,7 @@ public class OI {
 		lower = new JoystickButton(rightstick, 3);
 		
 		cubeSol = new JoystickButton(rightstick, 1);
+		elevSol = new JoystickButton(rightstick, 2);
 		
 		cubeExtend = new JoystickButton(rightstick, 6);
 		cubeRetract = new JoystickButton(rightstick, 4);
@@ -59,7 +62,8 @@ public class OI {
 		cubeExtend.whileHeld(new CubeCommand(true));
 		cubeRetract.whileHeld(new CubeCommand(false));
 
-		cubeSol.whenPressed(new CubeToggle());	
+		cubeSol.whenPressed(new CubeToggle());
+		elevSol.whenPressed(new ElevatorToggle());
 	}
 	
 	/**
