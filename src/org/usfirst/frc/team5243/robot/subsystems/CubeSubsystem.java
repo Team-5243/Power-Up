@@ -122,7 +122,7 @@ public class CubeSubsystem extends Subsystem {
 	
 	public void setClosedLoopControl() {
 		if (compressor != null)
-			compressor.setClosedLoopControl(true);
+			compressor.setClosedLoopControl(true); 
 	}
 	
 	public void disableCompressor() {
