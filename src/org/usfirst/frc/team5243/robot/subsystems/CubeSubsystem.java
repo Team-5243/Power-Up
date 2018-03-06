@@ -20,8 +20,6 @@ public class CubeSubsystem extends Subsystem {
 	DoubleSolenoid solenoidELEV; //elevator piston
 	AnalogInput potentiometer;
 	WPI_TalonSRX actuator;
-	public AnalogInput leftPot;
-	public AnalogInput rightPot;
 	
 	Compressor compressor;
 
@@ -32,8 +30,6 @@ public class CubeSubsystem extends Subsystem {
 	public CubeSubsystem() {
 		solenoidCUBE = new DoubleSolenoid(RobotMap.cubeSolenoidCubeF, RobotMap.cubeSolenoidCubeR);
 		solenoidELEV = new DoubleSolenoid(RobotMap.cubeSolenoidElevF, RobotMap.cubeSolenoidElevR);
-		leftPot = new AnalogInput(RobotMap.leftPotentiometer);
-		rightPot = new AnalogInput(RobotMap.rightPotentiometer);
 		actuator = new WPI_TalonSRX(RobotMap.cubeActuator);
 		actuator.setSafetyEnabled(false);
 		potentiometer = new AnalogInput(RobotMap.cubePotentiometer);
@@ -61,7 +57,7 @@ public class CubeSubsystem extends Subsystem {
 	 * Extends the cube mechanism
 	 */
 	public void extend() {
-		if((potentiometer.getVoltage() < 4.3) && (leftPot.getVoltage() > .3 || leftPot.getVoltage() > 3.5) && (rightPot.getVoltage() > .3 || rightPot.getVoltage() > 3.5))  //may need to change .3 to something smaller. Must be bigger than .15
+		if(potentiometer.getVoltage() < 4.3)  //may need to change .3 to something smaller. Must be bigger than .15
 			actuator.set(1);
 		else actuator.set(0);
 	}
@@ -122,7 +118,7 @@ public class CubeSubsystem extends Subsystem {
 	
 	public void setClosedLoopControl() {
 		if (compressor != null)
-			compressor.setClosedLoopControl(true); 
+			compressor.setClosedLoopControl(true);
 	}
 	
 	public void disableCompressor() {

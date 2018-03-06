@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
 
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-	//Command driveCommand;
+	// Command driveCommand;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Auto mode", m_chooser);
 		SmartDashboard.putNumber("Position", 1);
 		CameraServer.getInstance().startAutomaticCapture(0);
-		gameData = "R";/*DriverStation.getInstance().getGameSpecificMessage();*/
+		gameData = "R";/* DriverStation.getInstance().getGameSpecificMessage(); */
 
 	}
 
@@ -71,8 +71,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		//climbSubsystem.stopActuators();
-		//System.out.println(climbSubsystem.getTime(ClimbCommand.start, Timer.getFPGATimestamp()));
+		// climbSubsystem.stopActuators();
+		// System.out.println(climbSubsystem.getTime(ClimbCommand.start,
+		// Timer.getFPGATimestamp()));
 	}
 
 	@Override
@@ -107,101 +108,96 @@ public class Robot extends TimedRobot {
 		int position = (int) SmartDashboard.getNumber("Position", 4);
 		switch (position) {
 		case 1:
-			if(gameData.length() > 0){
-				if(gameData.charAt(0) == 'L') {
+			if (gameData.length() > 0) {
+				if (gameData.charAt(0) == 'L') {
 					driveCommand = new Pos1_SwitchCloser();
 					System.out.println("on our side");
 					driveCommand.start();
-				}
-				else if(gameData.charAt(1) == 'L') {
+				} else if (gameData.charAt(1) == 'L') {
 					driveCommand = new Pos1_ScaleCloser();
 					System.out.println("scale on our side");
 					driveCommand.start();
-				}
-				else {
+				} else {
 					driveCommand = new DriveToBaseline();
 					System.out.println("The force is not on our side");
 					driveCommand.start();
 				}
-			}
-			else {
+			} else {
 				driveCommand = new DriveToBaseline();
 				System.out.println("message is not available");
 				driveCommand.start();
 			}
 			break;
-			case 2:
-				if(gameData.length() > 0){
-					if(gameData.charAt(0) == 'L') {
-						driveCommand = new Pos2_SwitchLeft();
-						driveCommand.start();
-					}
-					else {
-						driveCommand = new Pos2_SwitchRight();
-						driveCommand.start();
-					}
-
-		        }
-				break;
-			case 3:
-				if(gameData.length() > 0){
-					if(gameData.charAt(0) == 'R'){
-						driveCommand = new Pos3_SwitchCloser();
-						driveCommand.start();
-					} 
-					else if(gameData.charAt(1) == 'R'){
-						driveCommand = new Pos3_ScaleCloser();
-						driveCommand.start();
-					}
-					else {
-						driveCommand = new DriveToBaseline();
-						driveCommand.start();
-						
-					}
-				break;
+		case 2:
+			if (gameData.length() > 0) {
+				if (gameData.charAt(0) == 'L') {
+					driveCommand = new Pos2_SwitchLeft();
+					driveCommand.start();
+				} else {
+					driveCommand = new Pos2_SwitchRight();
+					driveCommand.start();
 				}
-				
-		}
-			
 
-		}
+			}
+			break;
+		case 3:
+			if (gameData.length() > 0) {
+				if (gameData.charAt(0) == 'R') {
+					driveCommand = new Pos3_SwitchCloser();
+					driveCommand.start();
+				} else if (gameData.charAt(1) == 'R') {
+					driveCommand = new Pos3_ScaleCloser();
+					driveCommand.start();
+				} else {
+					driveCommand = new DriveToBaseline();
+					driveCommand.start();
 
-		/**
-		 * This function is called periodically during autonomous.
-		 */
-		@Override
-		public void autonomousPeriodic() {
-			Scheduler.getInstance().run();
-			System.out.println("Encoder Distance: " + driveSubsystem.getDistance()/-70.514);
-		}
+				}
+				break;
+			}
+		default: 
+			break;
 
-		@Override
-		public void teleopInit() {
-			// This makes sure that the autonomous stops running when
-			// teleop starts running. If you want the autonomous to
-			// continue until interrupted by another command, remove
-			// this line or comment it out.
-			SmartDashboard.putNumber("Accel", driveSubsystem.getAcceleration());
-			//cubeSubsystem.setClosedLoopControl();
-		}
-
-		/**
-		 * This function is called periodically during operator control.
-		 */
-		@Override
-		public void teleopPeriodic() {
-			Scheduler.getInstance().run();
-			//System.out.println("right Voltage: "+climbSubsystem.rightPot.getVoltage());
-			//System.out.println("leftVoltage: "+climbSubsystem.leftPot.getVoltage());
-			System.out.println("Cube Pot: " + cubeSubsystem.getPot().getVoltage());
-			cubeSubsystem.setClosedLoopControl();
-		}
-
-		/**
-		 * This function is called periodically during test mode.
-	 `*/
-		@Override
-		public void testPeriodic() {
 		}
 
 	}
+
+	/**
+	 * This function is called periodically during autonomous.
+	 */
+	@Override
+	public void autonomousPeriodic() {
+		Scheduler.getInstance().run();
+		System.out.println("Encoder Distance: " + driveSubsystem.getDistance() / -70.514);
+	}
+
+	@Override
+	public void teleopInit() {
+		// This makes sure that the autonomous stops running when
+		// teleop starts running. If you want the autonomous to
+		// continue until interrupted by another command, remove
+		// this line or comment it out.
+		SmartDashboard.putNumber("Accel", driveSubsystem.getAcceleration());
+		// cubeSubsystem.setClosedLoopControl();
+	}
+
+	/**
+	 * This function is called periodically during operator control.
+	 */
+	@Override
+	public void teleopPeriodic() {
+		Scheduler.getInstance().run();
+		// System.out.println("right Voltage: "+climbSubsystem.rightPot.getVoltage());
+		// System.out.println("leftVoltage: "+climbSubsystem.leftPot.getVoltage());
+		System.out.println("Cube Pot: " + cubeSubsystem.getPot().getVoltage());
+		cubeSubsystem.setClosedLoopControl();
+	}
+
+	/**
+	 * This function is called periodically during test mode. `
+	 */
+	@Override
+	public void testPeriodic() {
+	}
+
+}

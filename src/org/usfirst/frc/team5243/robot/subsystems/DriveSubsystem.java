@@ -118,7 +118,7 @@ public class DriveSubsystem extends Subsystem {
 				left.set(motorSpeed);
 				right.set(motorSpeed);
 				Timer.delay(.005);
-				motorSpeed-=.1;
+ 				motorSpeed-=.1;
 			}
 		}
 	}*/
@@ -296,9 +296,9 @@ public class DriveSubsystem extends Subsystem {
 	double rightSpeed = .6;
 	public void testAutoCorrect(double degrees, double startYaw) {
 		if (degrees > 0) {
-			rightSpeed += 0.05 * degrees;
+			rightSpeed += 0.05;
 		} else if (degrees < 0){
-			leftSpeed += .05 * degrees;
+			leftSpeed += .05;
 		}
 		int degOfFreedom = 2;
 		if (Math.abs(degrees - startYaw) <= degOfFreedom) {

@@ -28,8 +28,8 @@ public class RobotMap {
 	public static final int cubeSolenoidCubeF = 0;
 	public static final int cubeSolenoidCubeR = 1;
 	
-	public static final int cubeSolenoidElevF = 0; //TODO: Placement values
-	public static final int cubeSolenoidElevR = 1;
+	public static final int cubeSolenoidElevF = 3; //TODO: Placement values
+	public static final int cubeSolenoidElevR = 2;
 	
 	public static final int cubeCompressor = 0;
 	
