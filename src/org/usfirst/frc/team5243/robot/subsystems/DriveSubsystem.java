@@ -296,9 +296,9 @@ public class DriveSubsystem extends Subsystem {
 	double rightSpeed = .6;
 	public void testAutoCorrect(double degrees, double startYaw) {
 		if (degrees > 0) {
-			rightSpeed += 0.05;
+			rightSpeed += 0.05 * degrees;
 		} else if (degrees < 0){
-			leftSpeed += .05;
+			leftSpeed += .05 * degrees;
 		}
 		int degOfFreedom = 2;
 		if (Math.abs(degrees - startYaw) <= degOfFreedom) {
