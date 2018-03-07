@@ -66,7 +66,7 @@ public class CubeSubsystem extends Subsystem {
 	 * Retracts the cube mechanism.
 	 */
 	public void retract() {
-		if(potentiometer.getVoltage() > .7) actuator.set(-1);
+		if(potentiometer.getVoltage() > 1) actuator.set(-1);
 		else actuator.set(0);
 	}
 	
@@ -95,8 +95,12 @@ public class CubeSubsystem extends Subsystem {
 	 * Sets the state of the solenoid
 	 * @param on Solenoid is on or off depending on whether "on" is true or false
 	 */
-	public void setSolenoid(Value direction) {
+	public void setCubeSolenoid(Value direction) {
 		solenoidCUBE.set(direction);
+	}
+	
+	public void setElevSolenoid(Value direction) {
+		solenoidELEV.set(direction);
 	}
 
 	/**
@@ -116,9 +120,9 @@ public class CubeSubsystem extends Subsystem {
 			solenoidELEV.set(Value.kReverse);
 	}
 	
-	public void setClosedLoopControl() {
+	public void setClosedLoopControl(boolean on) {
 		if (compressor != null)
-			compressor.setClosedLoopControl(true);
+			compressor.setClosedLoopControl(on);
 	}
 	
 	public void disableCompressor() {

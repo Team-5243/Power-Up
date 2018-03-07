@@ -20,7 +20,9 @@ import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 //import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.DriveSubsystem;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -59,7 +61,8 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		SmartDashboard.putNumber("Position", 1);
-		CameraServer.getInstance().startAutomaticCapture(0);
+		CameraServer.getInstance().startAutomaticCapture();
+		
 		gameData = "R";/* DriverStation.getInstance().getGameSpecificMessage(); */
 
 	}
@@ -74,6 +77,7 @@ public class Robot extends TimedRobot {
 		// climbSubsystem.stopActuators();
 		// System.out.println(climbSubsystem.getTime(ClimbCommand.start,
 		// Timer.getFPGATimestamp()));
+		cubeSubsystem.disableCompressor();
 	}
 
 	@Override
@@ -157,7 +161,6 @@ public class Robot extends TimedRobot {
 			}
 		default: 
 			break;
-
 		}
 
 	}
@@ -189,8 +192,8 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		// System.out.println("right Voltage: "+climbSubsystem.rightPot.getVoltage());
 		// System.out.println("leftVoltage: "+climbSubsystem.leftPot.getVoltage());
-		System.out.println("Cube Pot: " + cubeSubsystem.getPot().getVoltage());
-		cubeSubsystem.setClosedLoopControl();
+		//System.out.println("Cube Pot: " + cubeSubsystem.getPot().getVoltage());
+		cubeSubsystem.setClosedLoopControl(true);
 	}
 
 	/**

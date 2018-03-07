@@ -3,6 +3,7 @@ package org.usfirst.frc.team5243.robot.commands;
 import org.usfirst.frc.team5243.robot.Robot;
 import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
 
@@ -29,10 +30,13 @@ public class CubeCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(isExtending)
+    	if(isExtending) {
     		cubeSubsystem.extend();
-    	else 
+    		System.out.println("extending");
+    	} else { 
     		cubeSubsystem.retract();
+    		System.out.println("retracting");
+    	}
 
     }
 

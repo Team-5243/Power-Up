@@ -92,6 +92,7 @@ public class DriveSubsystem extends Subsystem {
 		//double acceleration = Math.sqrt(Math.pow(gyro.getRawAccelX(), 2) + Math.pow(gyro.getRawAccelY(), 2));
 		
 		drive.tankDrive(-Robot.oi.getLeftStick().getY(), -Robot.oi.getRightStick().getY());
+		//System.out.println("Tank Drive");
 		//drive.tankDrive(currentLeftVelocity - (acceleration > 0.1 ? 0.1 : acceleration), 
 		//currentRightVelocity - (acceleration > 0.1 ? 0.1 : acceleration));
 		

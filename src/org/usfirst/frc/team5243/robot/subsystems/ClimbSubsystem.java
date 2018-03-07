@@ -76,9 +76,9 @@ public class ClimbSubsystem extends Subsystem {
 	/**
 	 * Lowers the climb mechanism all the way. Used in auton.
 	 */
-	public void fullLower(double per) {
-		per = 4.15*per;
-		if(leftPot.getVoltage() > per && rightPot.getVoltage() > per) {
+	public void fullLower(double percent) {
+		percent = 4.15*percent; //pass a percent to lower it to
+		if(leftPot.getVoltage() > percent && rightPot.getVoltage() > percent) {
 			leftClimb.set(-.7);
 			rightClimb.set(-.7);
 		} else {
