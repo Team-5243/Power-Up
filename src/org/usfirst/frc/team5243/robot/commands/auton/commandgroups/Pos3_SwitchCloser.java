@@ -30,7 +30,8 @@ public class Pos3_SwitchCloser extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new DriveStraight(110));
+    	
+    	addSequential(new DriveStraight(120));
     	addSequential(new ClimbCommandAuton(true, .5));
     	addSequential(new TurnLeft(65));
     	addSequential(new DriveStraight(6)); 

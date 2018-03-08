@@ -66,8 +66,8 @@ public class ClimbSubsystem extends Subsystem {
 	public void fullLift(double per) {
 		per = (4.15*per);
 		if (leftPot.getVoltage() < per && rightPot.getVoltage() < per) {
-			leftClimb.set(.7);
-			rightClimb.set(.7);
+			leftClimb.set(.8);
+			rightClimb.set(.8);
 		} else {
 			stopActuators();
 		}
@@ -79,8 +79,8 @@ public class ClimbSubsystem extends Subsystem {
 	public void fullLower(double percent) {
 		percent = 4.15*percent; //pass a percent to lower it to
 		if(leftPot.getVoltage() > percent && rightPot.getVoltage() > percent) {
-			leftClimb.set(-.7);
-			rightClimb.set(-.7);
+			leftClimb.set(-.8);
+			rightClimb.set(-.8);
 		} else {
 			stopActuators();
 		}

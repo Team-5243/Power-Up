@@ -17,12 +17,13 @@ public class Pos1_SwitchCloser extends CommandGroup {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	//addSequential(new ChangeSolenoid(Value.kForward));
-    	addSequential(new DriveStraight(150));
-    	addSequential(new TurnRight(90));
+    	addSequential(new DriveStraight(120));
     	addSequential(new ClimbCommandAuton(true, .5));
+    	addSequential(new TurnRight(90));
+    	
     	addSequential(new DriveStraight(12)); 
     	//addSequential(new CubeCommand(true));    	
-    	addSequential(new ChangeSolenoid(Value.kReverse));
+    	addSequential(new ChangeSolenoid(Value.kForward));
     }
 
 }

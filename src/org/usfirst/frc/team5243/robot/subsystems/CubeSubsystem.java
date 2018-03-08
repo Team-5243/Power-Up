@@ -21,7 +21,7 @@ public class CubeSubsystem extends Subsystem {
 	AnalogInput potentiometer;
 	WPI_TalonSRX actuator;
 	
-	Compressor compressor;
+	public Compressor compressor;
 
 	
 	/**
@@ -138,4 +138,9 @@ public class CubeSubsystem extends Subsystem {
 	public DoubleSolenoid getSolenoidElev() {
 		return solenoidELEV;
 	}
+	
+	public boolean compressorEnabled() {
+		return compressor.enabled();
+	}
+	
 }

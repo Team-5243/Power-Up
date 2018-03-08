@@ -7,22 +7,14 @@
 
 package org.usfirst.frc.team5243.robot;
 
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.DriveToBaseline;
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_ScaleCloser;
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_SwitchCloser;
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos2_SwitchLeft;
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos2_SwitchRight;
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_ScaleCloser;
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_SwitchCloser;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.FullLiftAuton;
 import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 //import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
 //import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.DriveSubsystem;
 
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -63,7 +55,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Position", 1);
 		CameraServer.getInstance().startAutomaticCapture();
 		
-		gameData = "R";/* DriverStation.getInstance().getGameSpecificMessage(); */
+		gameData = "AAA";/* DriverStation.getInstance().getGameSpecificMessage(); */
 
 	}
 
@@ -78,11 +70,13 @@ public class Robot extends TimedRobot {
 		// System.out.println(climbSubsystem.getTime(ClimbCommand.start,
 		// Timer.getFPGATimestamp()));
 		cubeSubsystem.disableCompressor();
+		
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		driveSubsystem.stopMotors();
 	}
 
 	/**
@@ -99,7 +93,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		driveCommand = new Pos1_ScaleCloser();
+		
+		driveCommand = new FullLiftAuton();
 		driveCommand.start();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -110,7 +105,7 @@ public class Robot extends TimedRobot {
 
 		// schedule the autonomous command (example)
 		int position = (int) SmartDashboard.getNumber("Position", 4);
-		switch (position) {
+		/*switch (position) {
 		case 1:
 			if (gameData.length() > 0) {
 				if (gameData.charAt(0) == 'L') {
@@ -161,7 +156,7 @@ public class Robot extends TimedRobot {
 			}
 		default: 
 			break;
-		}
+		}*/
 
 	}
 
@@ -181,6 +176,7 @@ public class Robot extends TimedRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		SmartDashboard.putNumber("Accel", driveSubsystem.getAcceleration());
+		driveSubsystem.stopMotors();
 		// cubeSubsystem.setClosedLoopControl();
 	}
 
@@ -193,7 +189,11 @@ public class Robot extends TimedRobot {
 		// System.out.println("right Voltage: "+climbSubsystem.rightPot.getVoltage());
 		// System.out.println("leftVoltage: "+climbSubsystem.leftPot.getVoltage());
 		//System.out.println("Cube Pot: " + cubeSubsystem.getPot().getVoltage());
+		
 		cubeSubsystem.setClosedLoopControl(true);
+		System.out.println("Compressor Enabled: " + cubeSubsystem.compressor.enabled());
+		System.out.println("Pressure Switch: " + cubeSubsystem.compressor.getPressureSwitchValue());
+		System.out.println("Current: " + cubeSubsystem.compressor.getCompressorCurrent());
 	}
 
 	/**

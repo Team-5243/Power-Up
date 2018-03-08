@@ -173,7 +173,7 @@ public class DriveSubsystem extends Subsystem {
 		encoder.reset();
 		while (encoder.getDistance() / mult <= distance) {
 			System.out.println(encoder.getDistance()+" "+encoder.getDistance()/mult+" "+distance);
-			drive.tankDrive(.6, .6);
+			drive.tankDrive(.85, .85);
 			Timer.delay(.01);
 			double curYaw = gyro.getYaw();
 			autoCorrect(curYaw - lastYaw);
