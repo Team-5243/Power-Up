@@ -1,7 +1,5 @@
 package org.usfirst.frc.team5243.robot.commands;
 
-import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 

@@ -41,11 +41,11 @@ public class ClimbCommandAuton extends Command {
 	protected void execute() {
 		if(isLift) {
 			System.out.println("lift called");
-			climbSubsystem.fullLift(percent);
+			climbSubsystem.liftAuton(percent);
 		}
 		else {
 			System.out.println("lower called");
-			climbSubsystem.fullLower(percent);
+			climbSubsystem.lowerAuton(percent);
 		}
 		if(climbSubsystem.getActuatorSpeeds() == 0.0) {
     		isFinished = true;

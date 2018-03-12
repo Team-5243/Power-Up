@@ -5,7 +5,6 @@ import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
 
@@ -44,14 +43,12 @@ public class ClimbCommandTeleop extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if(isLift) {
-			cubeSubsystem.retract();
-			System.out.println("lift called");
-			climbSubsystem.lift();
+			//System.out.println("lift called");
+			climbSubsystem.liftTeleop();
 		}
 		else {
-			System.out.println("lower called");
-			climbSubsystem.lower();
-			cubeSubsystem.setElevSolenoid(Value.kForward);
+			//System.out.println("lower called");
+			climbSubsystem.lowerTeleop();
 		}
 		/*if(climbSubsystem.getActuatorSpeed() == 0.0) {
     		this.end();

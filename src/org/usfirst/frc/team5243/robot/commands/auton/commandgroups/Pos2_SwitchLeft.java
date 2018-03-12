@@ -1,7 +1,8 @@
 package org.usfirst.frc.team5243.robot.commands.auton.commandgroups;
 
-import org.usfirst.frc.team5243.robot.commands.ChangeSolenoid;
+import org.usfirst.frc.team5243.robot.commands.ChangeCubeSolAuton;
 import org.usfirst.frc.team5243.robot.commands.ClimbCommandAuton;
+import org.usfirst.frc.team5243.robot.commands.CubeDartCommandAuton;
 import org.usfirst.frc.team5243.robot.commands.auton.DriveStraight;
 import org.usfirst.frc.team5243.robot.commands.auton.TurnLeft;
 import org.usfirst.frc.team5243.robot.commands.auton.TurnRight;
@@ -32,13 +33,14 @@ public class Pos2_SwitchLeft extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	//addSequential(new ChangeSolenoid(Value.kForward));
+    	addParallel(new CubeDartCommandAuton(true, .93));
     	addSequential(new DriveStraight(6));
     	addSequential(new TurnLeft(45));
     	addSequential(new DriveStraight(68));
     	addSequential(new TurnRight(50));
     	addSequential(new ClimbCommandAuton(true, .5));
     	addSequential(new DriveStraight(40));
-    	addSequential(new ChangeSolenoid(Value.kReverse));
+    	addSequential(new ChangeCubeSolAuton(Value.kForward));
     	
     	
     }
