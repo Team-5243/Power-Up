@@ -7,14 +7,20 @@
 
 package org.usfirst.frc.team5243.robot;
 
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.FullLiftAuton;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.DriveToBaseline;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_ScaleCloser;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_SwitchCloser;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_ScaleCloser;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_SwitchCloser;
 import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 //import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
 //import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.DriveSubsystem;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -52,10 +58,21 @@ public class Robot extends TimedRobot {
 		oi.init();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
-		SmartDashboard.putNumber("Position", 1);
-		CameraServer.getInstance().startAutomaticCapture();
+		//SmartDashboard.putNumber("Position", 1);
 		
-		gameData = "AAA";/* DriverStation.getInstance().getGameSpecificMessage(); */
+		SmartDashboard.putNumber("Right Arm Voltage", climbSubsystem.getRightPotVoltage());
+		SmartDashboard.putNumber("Left Arm Voltage", climbSubsystem.getLeftPotVoltage());
+		SmartDashboard.putNumber("Cube Dart Voltage", cubeSubsystem.getPot().getVoltage());
+		
+		//CameraServer.getInstance().startAutomaticCapture(); //TODO: Test new cam code below with increase FPS?
+		
+		UsbCamera cam = CameraServer.getInstance().startAutomaticCapture();
+		cam.setFPS(60);
+		
+		//gameData = "LAA"; 
+		gameData = DriverStation.getInstance().getGameSpecificMessage(); //TODO: Determine and Finalize Auton and Positions
+		SmartDashboard.putString("gameDataString", gameData);
+		SmartDashboard.putNumber("Position", 1);
 
 	}
 
@@ -93,9 +110,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		gameData = DriverStation.getInstance().getGameSpecificMessage(); //TODO: Determine and Finalize Auton and Positions
+		SmartDashboard.putString("gameDataString", gameData);
+		System.out.println("gameData: " + gameData);
 		
-		driveCommand = new FullLiftAuton();
-		driveCommand.start();
+		//driveCommand = new FullLiftAuton();
+		//driveCommand.start();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
@@ -104,23 +124,24 @@ public class Robot extends TimedRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		int position = (int) SmartDashboard.getNumber("Position", 4);
-		/*switch (position) {
+		int position = (int) SmartDashboard.getNumber("Position", 1);
+		switch (position) {
 		case 1:
 			if (gameData.length() > 0) {
-				if (gameData.charAt(0) == 'L') {
+				if (gameData.charAt(1) == 'L') {
+					driveCommand = new Pos1_ScaleCloser(); //Pos1_ScaleCloser();
+					System.out.println("scale on our side");
+					driveCommand.start();
+				} else if (gameData.charAt(0) == 'L') {
 					driveCommand = new Pos1_SwitchCloser();
 					System.out.println("on our side");
-					driveCommand.start();
-				} else if (gameData.charAt(1) == 'L') {
-					driveCommand = new Pos1_ScaleCloser();
-					System.out.println("scale on our side");
 					driveCommand.start();
 				} else {
 					driveCommand = new DriveToBaseline();
 					System.out.println("The force is not on our side");
 					driveCommand.start();
 				}
+				
 			} else {
 				driveCommand = new DriveToBaseline();
 				System.out.println("message is not available");
@@ -130,13 +151,17 @@ public class Robot extends TimedRobot {
 		case 2:
 			if (gameData.length() > 0) {
 				if (gameData.charAt(0) == 'L') {
-					driveCommand = new Pos2_SwitchLeft();
+					driveCommand = new DriveToBaseline(); //Pos2_SwitchLeft;
 					driveCommand.start();
 				} else {
-					driveCommand = new Pos2_SwitchRight();
+					driveCommand = new DriveToBaseline(); //Pos2_SwitchRight;
 					driveCommand.start();
 				}
 
+			} else {
+				driveCommand = new DriveToBaseline();
+				System.out.println("message is not available");
+				driveCommand.start();
 			}
 			break;
 		case 3:
@@ -150,13 +175,18 @@ public class Robot extends TimedRobot {
 				} else {
 					driveCommand = new DriveToBaseline();
 					driveCommand.start();
-
 				}
-				break;
+				
+			} else {
+				driveCommand = new DriveToBaseline();
+				System.out.println("message is not available");
+				driveCommand.start();
 			}
-		default: 
 			break;
-		}*/
+		default:
+			System.out.println("Position not found");
+			break;
+		}
 
 	}
 
@@ -166,7 +196,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		System.out.println("Encoder Distance: " + driveSubsystem.getDistance() / -70.514);
+		//System.out.println("Encoder Distance: " + driveSubsystem.getDistance() / -70.514);
+		cubeSubsystem.setClosedLoopControl(true);
 	}
 
 	@Override
@@ -186,14 +217,15 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		// System.out.println("right Voltage: "+climbSubsystem.rightPot.getVoltage());
-		// System.out.println("leftVoltage: "+climbSubsystem.leftPot.getVoltage());
-		//System.out.println("Cube Pot: " + cubeSubsystem.getPot().getVoltage());
+		System.out.println("Right Lift Voltage: " + climbSubsystem.rightPot.getVoltage());
+		System.out.println("Left Lift Voltage: " + climbSubsystem.leftPot.getVoltage());
+		System.out.println("Cube Dart Voltage: " + cubeSubsystem.getPot().getVoltage());
 		
 		cubeSubsystem.setClosedLoopControl(true);
-		System.out.println("Compressor Enabled: " + cubeSubsystem.compressor.enabled());
+		
+		/*System.out.println("Compressor Enabled: " + cubeSubsystem.compressor.enabled());
 		System.out.println("Pressure Switch: " + cubeSubsystem.compressor.getPressureSwitchValue());
-		System.out.println("Current: " + cubeSubsystem.compressor.getCompressorCurrent());
+		System.out.println("Current: " + cubeSubsystem.compressor.getCompressorCurrent());*/
 	}
 
 	/**

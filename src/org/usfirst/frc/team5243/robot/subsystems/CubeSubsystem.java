@@ -53,10 +53,14 @@ public class CubeSubsystem extends Subsystem {
 		return potentiometer;
 		//LIMIT POT VOLTAGE TO .1-4.2 ***VERY IMPORTANT***
 	}
+	
+	public double getCubeDartSpeed() {
+		return actuator.get();
+	}
 	/**
 	 * Extends the cube mechanism
 	 */
-	public void extend() {
+	public void extendCubeDart() {
 		if(potentiometer.getVoltage() < 4.3)  //may need to change .3 to something smaller. Must be bigger than .15
 			actuator.set(1);
 		else actuator.set(0);
@@ -65,8 +69,8 @@ public class CubeSubsystem extends Subsystem {
 	/**
 	 * Retracts the cube mechanism.
 	 */
-	public void retract() {
-		if(potentiometer.getVoltage() > 1) actuator.set(-1);
+	public void retractCubeDart() {
+		if(potentiometer.getVoltage() > .8) actuator.set(-1);
 		else actuator.set(0);
 	}
 	
@@ -75,7 +79,7 @@ public class CubeSubsystem extends Subsystem {
 	 */
 	public void fullExtend() {
 		if (potentiometer.getVoltage() < 4.3) {
-			actuator.set(.5);
+			actuator.set(1);
 		}
 		else actuator.set(0.0);
 	}
@@ -84,11 +88,32 @@ public class CubeSubsystem extends Subsystem {
 	 * Retracts the cube mechanism all the way. Used in auton.
 	 */
 	public void fullRetract() {
-		if (potentiometer.getVoltage() > .7) {
-			actuator.set(0.0);
+		if (potentiometer.getVoltage() > .8) {
+			actuator.set(-1);
 			return;
 		}
-		actuator.set(-.5);
+		actuator.set(0.0);
+	}
+	
+	/**
+	 * Extends the dart actuator to the specified voltage value during the autonomous period.
+	 * @param voltage determines how far the cube dart will extend. Should be .93 for the partial
+	 * extension needed to lift Cube Elevator Solenoid
+	 */
+	public void extendDartAuton(double voltage) {
+		if(potentiometer.getVoltage() > 4.3) voltage = 4.3;
+		if(potentiometer.getVoltage() < .8) voltage = .8;
+		if(potentiometer.getVoltage() < voltage) {
+			actuator.set(1);
+		} else actuator.set(0.0);
+	}
+	
+	public void retractDartAuton(double voltage) {
+		if(potentiometer.getVoltage() > 4.3) voltage = 4.3;
+		if(potentiometer.getVoltage() < .8) voltage = .8;
+		if(potentiometer.getVoltage() > voltage) {
+			actuator.set(-1);
+		} else actuator.set(0.0);
 	}
 
 	/**
@@ -103,21 +128,27 @@ public class CubeSubsystem extends Subsystem {
 		solenoidELEV.set(direction);
 	}
 
-	/**
+	/**x
 	 * Toggles the cube solenoid between the on and off state
 	 */
 	public void toggleCube() {
-		if (solenoidCUBE.get().equals(Value.kReverse) || solenoidCUBE.get().equals(Value.kOff))
+		if (solenoidCUBE.get().equals(Value.kReverse) || solenoidCUBE.get().equals(Value.kOff)) {
 			solenoidCUBE.set(Value.kForward);
-		else
+			//System.out.println("Cube: Forward"); **Release**
+		} else {
 			solenoidCUBE.set(Value.kReverse);
+			//System.out.println("Cube: Reverse"); **Clamp Down**
+		}
 	}
 	
 	public void toggleElev() {
-		if (solenoidELEV.get().equals(Value.kReverse) || solenoidELEV.get().equals(Value.kOff))
+		if (solenoidELEV.get().equals(Value.kReverse) || solenoidELEV.get().equals(Value.kOff)) {
 			solenoidELEV.set(Value.kForward);
-		else
+			//System.out.println("Elev: Forward"); **Elev Sol Drop** 
+		} else {
 			solenoidELEV.set(Value.kReverse);
+			//System.out.println("Elev: Reverse"); **Elev Sol Raise**
+		}
 	}
 	
 	public void setClosedLoopControl(boolean on) {
@@ -129,7 +160,7 @@ public class CubeSubsystem extends Subsystem {
 		compressor.stop();
 	}
 	
-	public void stop() {
+	public void stopCubeDart() {
 		actuator.set(0);
 	}
 	public DoubleSolenoid getSolenoidCube() {

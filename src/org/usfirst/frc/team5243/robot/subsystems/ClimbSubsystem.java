@@ -29,44 +29,66 @@ public class ClimbSubsystem extends Subsystem {
 	}
 
 	/**
-	 * Lifts the climb mechanism through the joysticks
+	 * Lifts the climb mechanism through the joysticks. A limit was added so that the cube dart will automatically retract
+	 * itself when the arms are near the horizontal position in order to stay within the size limit.
 	 */
-	public void lift() {
-		if(leftPot.getVoltage() < 4.15 && rightPot.getVoltage() < 4.15) {
+	public void liftTeleop() {
+		//if(!(((getLeftPotVoltage() < 4.15 && getLeftPotVoltage() > 3.15) && (getRightPotVoltage() < 4.15 && getRightPotVoltage() > 3.15)) || ((getLeftPotVoltage() < 1.15 && getLeftPotVoltage() > .2) && (getRightPotVoltage() < 1.15 && getRightPotVoltage() > .2)))) {
+		/*if((getLeftPotVoltage() < 3.15 && getLeftPotVoltage() > 1.2) && (getRightPotVoltage() < 3.15 && getRightPotVoltage() > 1.2)) {
+			Robot.cubeSubsystem.retractCubeDart();
+			System.out.println("Retracting Cube Dart to stay within the size limit");
+		}*/
+		/*leftClimb.set(.7);
+		rightClimb.set(.7);*/
+		if(leftPot.getVoltage() < 3.85) {
 			leftClimb.set(.7);
-			rightClimb.set(.8);
 		}
 		else {
 			leftClimb.set(0);
+		}
+		if(rightPot.getVoltage() < 4.15) {
+			rightClimb.set(.8);
+		}
+		else {
 			rightClimb.set(0);
 		}
-		System.out.println("Left Voltage: " + leftPot.getVoltage());
-		System.out.println("Right Voltage: " + rightPot.getVoltage());
+		//System.out.println("Left Voltage: " + leftPot.getVoltage());
+		//System.out.println("Right Voltage: " + rightPot.getVoltage());
 	}
 
 	/**
 	 * Lowers the climb mechanism through the joysticks
 	 */
-	public void lower() {
-		if(leftPot.getVoltage() > 0.15 && rightPot.getVoltage() > 0.15) {
+	public void lowerTeleop() {
+		//if(!(((getLeftPotVoltage() < 4.15 && getLeftPotVoltage() > 3.15) && (getRightPotVoltage() < 4.15 && getRightPotVoltage() > 3.15)) || ((getLeftPotVoltage() < 1.15 && getLeftPotVoltage() > .15) && (getRightPotVoltage() < 1.15 && getRightPotVoltage() > .15)))) {
+		/*if((getLeftPotVoltage() < 3.15 && getLeftPotVoltage() > 1.2) && (getRightPotVoltage() < 3.15 && getRightPotVoltage() > 1.2)) {
+			Robot.cubeSubsystem.retractCubeDart();
+			System.out.println("Retracting Cube Dart to stay within the size limit");
+		}*/
+		if(leftPot.getVoltage() > 0.15) {
 			leftClimb.set(-.5);
-			rightClimb.set(-.47);
 		}
 		else {
 			leftClimb.set(0);
+		}
+		if(rightPot.getVoltage() > 0.35) {
+			rightClimb.set(-.47);
+		}
+		else {
 			rightClimb.set(0);
 		}
-		System.out.println("Left Voltage: " + leftPot.getVoltage());
-		System.out.println("Right Voltage: " + rightPot.getVoltage());
+		//System.out.println("Left Voltage: " + leftPot.getVoltage());
+		//System.out.println("Right Voltage: " + rightPot.getVoltage());
 	}
 
 	/**
 	 * Lifts the climb mechanism all the way. Used in auton.
 	 */
-	public void fullLift(double per) {
+	public void liftAuton(double per) {
+		//if(leftPot.getVoltage() > 4.15 && rightPot.getVoltage() > 4.15) 
 		per = (4.15*per);
 		if (leftPot.getVoltage() < per && rightPot.getVoltage() < per) {
-			leftClimb.set(.8);
+			leftClimb.set(.7);
 			rightClimb.set(.8);
 		} else {
 			stopActuators();
@@ -76,11 +98,11 @@ public class ClimbSubsystem extends Subsystem {
 	/**
 	 * Lowers the climb mechanism all the way. Used in auton.
 	 */
-	public void fullLower(double percent) {
+	public void lowerAuton(double percent) {
 		percent = 4.15*percent; //pass a percent to lower it to
 		if(leftPot.getVoltage() > percent && rightPot.getVoltage() > percent) {
-			leftClimb.set(-.8);
-			rightClimb.set(-.8);
+			leftClimb.set(-.5);
+			rightClimb.set(-.47);
 		} else {
 			stopActuators();
 		}

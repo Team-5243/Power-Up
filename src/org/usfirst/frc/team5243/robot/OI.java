@@ -8,7 +8,7 @@ package org.usfirst.frc.team5243.robot;
 
 
 import org.usfirst.frc.team5243.robot.commands.ClimbCommandTeleop;
-import org.usfirst.frc.team5243.robot.commands.CubeCommand;
+import org.usfirst.frc.team5243.robot.commands.CubeDartCommandTeleop;
 import org.usfirst.frc.team5243.robot.commands.CubeToggle;
 import org.usfirst.frc.team5243.robot.commands.ElevatorToggle;
 
@@ -59,8 +59,8 @@ public class OI {
 		lift.whileHeld(new ClimbCommandTeleop(true));
 		lower.whileHeld(new ClimbCommandTeleop(false));
 		
-		cubeExtend.whileHeld(new CubeCommand(true));
-		cubeRetract.whileHeld(new CubeCommand(false));
+		cubeExtend.whileHeld(new CubeDartCommandTeleop(true));
+		cubeRetract.whileHeld(new CubeDartCommandTeleop(false));
 
 		cubeSol.whenPressed(new CubeToggle());
 		elevSol.whenPressed(new ElevatorToggle());

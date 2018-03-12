@@ -6,15 +6,19 @@ import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
-public class ChangePistonElev extends Command {
+
+
+
+public class ChangeCubeSolAuton extends Command {
 
 	Value direction;
 	CubeSubsystem cubeSubsystem;
 	
-    public ChangePistonElev(Value direction) {
+	/**
+	 * Contructor for changing the state of the solenoid
+	 * @param on the state the solenoid should be
+	 */
+    public ChangeCubeSolAuton(Value direction) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	this.direction = direction;
@@ -24,8 +28,8 @@ public class ChangePistonElev extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	cubeSubsystem.setElevSolenoid(direction);
-    }
+    	cubeSubsystem.setCubeSolenoid(direction);
+    } 
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {

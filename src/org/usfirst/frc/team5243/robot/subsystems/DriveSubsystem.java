@@ -30,8 +30,8 @@ public class DriveSubsystem extends Subsystem {
 
 	WPI_TalonSRX frontLeft;
 	WPI_TalonSRX frontRight;
-	// WPI_TalonSRX backLeft;
-	// WPI_TalonSRX backRight;
+	WPI_TalonSRX backLeft;
+	WPI_TalonSRX backRight;
 
 	SpeedControllerGroup left;
 	SpeedControllerGroup right;
@@ -53,15 +53,17 @@ public class DriveSubsystem extends Subsystem {
 		 */
 		frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
 		frontRight = new WPI_TalonSRX(RobotMap.frontRight);
-		// backLeft = new WPI_TalonSRX(RobotMap.backLeft);
-		// backRight = new WPI_TalonSRX(RobotMap.backRight);
+		backLeft = new WPI_TalonSRX(RobotMap.backLeft);
+		backRight = new WPI_TalonSRX(RobotMap.backRight);
+		
 		frontLeft.setSafetyEnabled(false);
 		frontRight.setSafetyEnabled(false);
-		// backLeft.setSafetyEnabled(false);
-		// backRight.setSafetyEnabled(false);
+		backLeft.setSafetyEnabled(false);
+		backRight.setSafetyEnabled(false);
 
-		left = new SpeedControllerGroup(frontLeft/* backLeft */);
-		right = new SpeedControllerGroup(frontRight/* , backRight */);
+		left = new SpeedControllerGroup(frontLeft, backLeft);
+		right = new SpeedControllerGroup(frontRight, backRight);
+		
 		encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
 		encoder.setDistancePerPulse(5);
 

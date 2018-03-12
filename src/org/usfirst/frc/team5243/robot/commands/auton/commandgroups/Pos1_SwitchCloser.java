@@ -1,7 +1,8 @@
 package org.usfirst.frc.team5243.robot.commands.auton.commandgroups;
 
-import org.usfirst.frc.team5243.robot.commands.ChangeSolenoid;
+import org.usfirst.frc.team5243.robot.commands.ChangeCubeSolAuton;
 import org.usfirst.frc.team5243.robot.commands.ClimbCommandAuton;
+import org.usfirst.frc.team5243.robot.commands.CubeDartCommandAuton;
 import org.usfirst.frc.team5243.robot.commands.auton.DriveStraight;
 import org.usfirst.frc.team5243.robot.commands.auton.TurnRight;
 
@@ -16,14 +17,13 @@ public class Pos1_SwitchCloser extends CommandGroup {
     public Pos1_SwitchCloser() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	//addSequential(new ChangeSolenoid(Value.kForward));
-    	addSequential(new DriveStraight(120));
+    	addSequential(new ChangeCubeSolAuton(Value.kReverse));
+    	addParallel(new CubeDartCommandAuton(true, .93));
+    	addSequential(new DriveStraight(135));
     	addSequential(new ClimbCommandAuton(true, .5));
-    	addSequential(new TurnRight(90));
-    	
-    	addSequential(new DriveStraight(12)); 
-    	//addSequential(new CubeCommand(true));    	
-    	addSequential(new ChangeSolenoid(Value.kForward));
+    	addSequential(new TurnRight(65));
+    	addSequential(new DriveStraight(12));     	
+    	addSequential(new ChangeCubeSolAuton(Value.kForward));
     }
 
 }
