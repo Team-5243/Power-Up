@@ -38,7 +38,7 @@ public class Pos3_ScaleCloser extends CommandGroup {
     	addParallel(new CubeDartCommandAuton(true, .93));
     	addSequential(new DriveStraight(278));
     	addSequential(new ClimbCommandAuton(true, 1));
-    	addSequential(new ChangePistonElevAuton(Value.kReverse));
+    	//addSequential(new ChangePistonElevAuton(Value.kReverse));
     	addSequential(new TurnLeft(55));
     	addSequential(new DriveStraight(6));
     	

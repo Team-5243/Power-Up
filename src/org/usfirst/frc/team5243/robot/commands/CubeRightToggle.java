@@ -5,17 +5,14 @@ import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ *
+ */
+public class CubeRightToggle extends Command {
 
- 
- 
-public class CubeToggle extends Command {
-	
 	CubeSubsystem cubeSubsystem;
 	
-	/**
-	 * Command for toggling the state of the cube mehcanism solenoid
-	 */
-    public CubeToggle() {
+    public CubeRightToggle() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	cubeSubsystem = Robot.cubeSubsystem;
@@ -28,8 +25,8 @@ public class CubeToggle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	cubeSubsystem.toggleCube();
-    	//System.out.println("Cube Toggled");
+    	cubeSubsystem.toggleRightSol();
+    	//System.out.println("Elevator Toggled");
     }
 
     // Make this return true when this Command no longer needs to run execute()

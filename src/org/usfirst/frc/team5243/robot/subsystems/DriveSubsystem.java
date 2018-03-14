@@ -9,6 +9,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -60,7 +61,14 @@ public class DriveSubsystem extends Subsystem {
 		frontRight.setSafetyEnabled(false);
 		backLeft.setSafetyEnabled(false);
 		backRight.setSafetyEnabled(false);
-
+		
+		//@param double secondsFromNeutralToFull, int timeoutMs
+		
+		frontRight.configOpenloopRamp(1.25, 0); 
+		frontLeft.configOpenloopRamp(1.25, 0);
+		backLeft.configOpenloopRamp(1.25, 0);
+		backRight.configOpenloopRamp(1.25, 0);
+		
 		left = new SpeedControllerGroup(frontLeft, backLeft);
 		right = new SpeedControllerGroup(frontRight, backRight);
 		

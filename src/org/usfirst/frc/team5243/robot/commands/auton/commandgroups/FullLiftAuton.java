@@ -30,6 +30,6 @@ public class FullLiftAuton extends CommandGroup {
         // arm.
     	addSequential(new CubeDartCommandAuton(true, .93));
     	addSequential(new ClimbCommandAuton(true, 1));
-    	addSequential(new ChangePistonElevAuton(Value.kReverse));
+    	//addSequential(new ChangePistonElevAuton(Value.kReverse));
     }
 }

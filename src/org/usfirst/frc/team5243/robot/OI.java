@@ -9,8 +9,8 @@ package org.usfirst.frc.team5243.robot;
 
 import org.usfirst.frc.team5243.robot.commands.ClimbCommandTeleop;
 import org.usfirst.frc.team5243.robot.commands.CubeDartCommandTeleop;
-import org.usfirst.frc.team5243.robot.commands.CubeToggle;
-import org.usfirst.frc.team5243.robot.commands.ElevatorToggle;
+import org.usfirst.frc.team5243.robot.commands.CubeLeftToggle;
+import org.usfirst.frc.team5243.robot.commands.CubeRightToggle;
 
 //import org.usfirst.frc.team5243.robot.commands.ClimbCommand;
 //import org.usfirst.frc.team5243.robot.commands.CubeCommand;
@@ -26,16 +26,18 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-
 	
 	Joystick rightstick;
 	Joystick leftstick;
+	
 	Button lift;
 	Button lower;
-	Button cubeSol;
+	
+	Button cubeLeftSol;
+	Button cubeRightSol;
+	
 	Button cubeExtend;
 	Button cubeRetract;
-	Button elevSol;
 	
 		// Button switchToPlayback;
 	
@@ -50,8 +52,8 @@ public class OI {
 		lift = new JoystickButton(rightstick, 5);
 		lower = new JoystickButton(rightstick, 3);
 		
-		cubeSol = new JoystickButton(rightstick, 1);
-		elevSol = new JoystickButton(rightstick, 2);
+		cubeLeftSol = new JoystickButton(leftstick, 1);
+		cubeRightSol = new JoystickButton(rightstick, 1);
 		
 		cubeExtend = new JoystickButton(rightstick, 6);
 		cubeRetract = new JoystickButton(rightstick, 4);
@@ -62,8 +64,8 @@ public class OI {
 		cubeExtend.whileHeld(new CubeDartCommandTeleop(true));
 		cubeRetract.whileHeld(new CubeDartCommandTeleop(false));
 
-		cubeSol.whenPressed(new CubeToggle());
-		elevSol.whenPressed(new ElevatorToggle());
+		cubeLeftSol.whenPressed(new CubeLeftToggle());
+		cubeRightSol.whenPressed(new CubeRightToggle());
 	}
 	
 	/**

@@ -16,8 +16,8 @@ public class CubeSubsystem extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	DoubleSolenoid solenoidCUBE; //clamp piston
-	DoubleSolenoid solenoidELEV; //elevator piston
+	DoubleSolenoid leftSolenoid; //clamp left sol
+	DoubleSolenoid rightSolenoid; //clamp right sol
 	AnalogInput potentiometer;
 	WPI_TalonSRX actuator;
 	
@@ -28,8 +28,8 @@ public class CubeSubsystem extends Subsystem {
 	 * The cube subsystem that relates to the cube mechanism.
 	 */
 	public CubeSubsystem() {
-		solenoidCUBE = new DoubleSolenoid(RobotMap.cubeSolenoidCubeF, RobotMap.cubeSolenoidCubeR);
-		solenoidELEV = new DoubleSolenoid(RobotMap.cubeSolenoidElevF, RobotMap.cubeSolenoidElevR);
+		leftSolenoid = new DoubleSolenoid(RobotMap.cubeSolenoidLeftF, RobotMap.cubeSolenoidLeftR);
+		rightSolenoid = new DoubleSolenoid(RobotMap.cubeSolenoidRightF, RobotMap.cubeSolenoidRightR);
 		actuator = new WPI_TalonSRX(RobotMap.cubeActuator);
 		actuator.setSafetyEnabled(false);
 		potentiometer = new AnalogInput(RobotMap.cubePotentiometer);
@@ -120,34 +120,34 @@ public class CubeSubsystem extends Subsystem {
 	 * Sets the state of the solenoid
 	 * @param on Solenoid is on or off depending on whether "on" is true or false
 	 */
-	public void setCubeSolenoid(Value direction) {
-		solenoidCUBE.set(direction);
+	public void setLeftCubeSolenoid(Value direction) {
+		leftSolenoid.set(direction);
 	}
 	
-	public void setElevSolenoid(Value direction) {
-		solenoidELEV.set(direction);
+	public void setRightCubeSolenoid(Value direction) {
+		rightSolenoid.set(direction);
 	}
 
 	/**x
 	 * Toggles the cube solenoid between the on and off state
 	 */
-	public void toggleCube() {
-		if (solenoidCUBE.get().equals(Value.kReverse) || solenoidCUBE.get().equals(Value.kOff)) {
-			solenoidCUBE.set(Value.kForward);
-			//System.out.println("Cube: Forward"); **Release**
+	public void toggleLeftSol() {
+		if (leftSolenoid.get().equals(Value.kReverse) || leftSolenoid.get().equals(Value.kOff)) {
+			leftSolenoid.set(Value.kForward);
+			System.out.println("Left Cube: Forward"); //**Release**
 		} else {
-			solenoidCUBE.set(Value.kReverse);
-			//System.out.println("Cube: Reverse"); **Clamp Down**
+			leftSolenoid.set(Value.kReverse);
+			System.out.println("Left Cube: Reverse"); //**Clamp Down**
 		}
 	}
 	
-	public void toggleElev() {
-		if (solenoidELEV.get().equals(Value.kReverse) || solenoidELEV.get().equals(Value.kOff)) {
-			solenoidELEV.set(Value.kForward);
-			//System.out.println("Elev: Forward"); **Elev Sol Drop** 
+	public void toggleRightSol() {
+		if (rightSolenoid.get().equals(Value.kReverse) || rightSolenoid.get().equals(Value.kOff)) {
+			rightSolenoid.set(Value.kForward);
+			System.out.println("Right Cube: Forward"); //**Elev Sol Drop** 
 		} else {
-			solenoidELEV.set(Value.kReverse);
-			//System.out.println("Elev: Reverse"); **Elev Sol Raise**
+			rightSolenoid.set(Value.kReverse);
+			System.out.println("Right Cube: Reverse"); //**Elev Sol Raise**
 		}
 	}
 	
@@ -164,10 +164,10 @@ public class CubeSubsystem extends Subsystem {
 		actuator.set(0);
 	}
 	public DoubleSolenoid getSolenoidCube() {
-		return solenoidCUBE;
+		return leftSolenoid;
 	}
 	public DoubleSolenoid getSolenoidElev() {
-		return solenoidELEV;
+		return rightSolenoid;
 	}
 	
 	public boolean compressorEnabled() {
