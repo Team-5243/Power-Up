@@ -7,7 +7,11 @@
 
 package org.usfirst.frc.team5243.robot;
 
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.DriveToBaseline;
 import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_ScaleCloser;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_SwitchCloser;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_ScaleCloser;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_SwitchCloser;
 import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 //import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
@@ -34,6 +38,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 	public static OI oi;
 	String gameData;
+	int pos = 1; //Hardcode for every match just in case
 
 	public static DriveSubsystem driveSubsystem = new DriveSubsystem();
 	public static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
@@ -65,10 +70,10 @@ public class Robot extends TimedRobot {
 		UsbCamera cam = CameraServer.getInstance().startAutomaticCapture();
 		cam.setFPS(60);
 		
-		gameData = "ALA"; 
-		//gameData = DriverStation.getInstance().getGameSpecificMessage(); //TODO: Determine and Finalize Auton and Positions
+		//gameData = "ALA"; 
+		gameData = DriverStation.getInstance().getGameSpecificMessage(); //TODO: Determine and Finalize Auton and Positions
 		SmartDashboard.putString("gameDataString", gameData);
-		SmartDashboard.putNumber("Position", 1);
+		SmartDashboard.putNumber("Position", pos);
 
 	}
 
@@ -110,8 +115,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putString("gameDataString", gameData);
 		System.out.println("gameData: " + gameData);
 		
-		driveCommand = new Pos1_ScaleCloser();
-		driveCommand.start();
+		//driveCommand = new Pos1_ScaleCloser();
+		//driveCommand.start();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
@@ -120,17 +125,17 @@ public class Robot extends TimedRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		/*int position = (int) SmartDashboard.getNumber("Position", 1);
+		int position = (int) SmartDashboard.getNumber("Position", pos);
 		switch (position) {
 		case 1:
 			if (gameData.length() > 0) {
-				if (gameData.charAt(1) == 'L') {
-					driveCommand = new Pos1_ScaleCloser(); //Pos1_ScaleCloser();
-					System.out.println("scale on our side");
+				if (gameData.charAt(0) == 'L') {
+					driveCommand = new Pos1_SwitchCloser(); //Pos1_ScaleCloser();
+					System.out.println("switch on our side");
 					driveCommand.start();
-				} else if (gameData.charAt(0) == 'L') {
-					driveCommand = new Pos1_SwitchCloser();
-					System.out.println("on our side");
+				} else if (gameData.charAt(1) == 'L') {
+					driveCommand = new Pos1_ScaleCloser();
+					System.out.println("scale on our side");
 					driveCommand.start();
 				} else {
 					driveCommand = new DriveToBaseline();
@@ -180,9 +185,11 @@ public class Robot extends TimedRobot {
 			}
 			break;
 		default:
+			driveCommand = new DriveToBaseline();
 			System.out.println("Position not found");
+			driveCommand.start();
 			break;
-		}*/
+		}
 
 	}
 
