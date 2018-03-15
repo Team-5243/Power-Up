@@ -7,11 +7,7 @@
 
 package org.usfirst.frc.team5243.robot;
 
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.DriveToBaseline;
 import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_ScaleCloser;
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_SwitchCloser;
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_ScaleCloser;
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_SwitchCloser;
 import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 //import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
@@ -69,8 +65,8 @@ public class Robot extends TimedRobot {
 		UsbCamera cam = CameraServer.getInstance().startAutomaticCapture();
 		cam.setFPS(60);
 		
-		//gameData = "LAA"; 
-		gameData = DriverStation.getInstance().getGameSpecificMessage(); //TODO: Determine and Finalize Auton and Positions
+		gameData = "ALA"; 
+		//gameData = DriverStation.getInstance().getGameSpecificMessage(); //TODO: Determine and Finalize Auton and Positions
 		SmartDashboard.putString("gameDataString", gameData);
 		SmartDashboard.putNumber("Position", 1);
 
@@ -114,8 +110,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putString("gameDataString", gameData);
 		System.out.println("gameData: " + gameData);
 		
-		//driveCommand = new FullLiftAuton();
-		//driveCommand.start();
+		driveCommand = new Pos1_ScaleCloser();
+		driveCommand.start();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
@@ -124,7 +120,7 @@ public class Robot extends TimedRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		int position = (int) SmartDashboard.getNumber("Position", 1);
+		/*int position = (int) SmartDashboard.getNumber("Position", 1);
 		switch (position) {
 		case 1:
 			if (gameData.length() > 0) {
@@ -186,7 +182,7 @@ public class Robot extends TimedRobot {
 		default:
 			System.out.println("Position not found");
 			break;
-		}
+		}*/
 
 	}
 
@@ -217,9 +213,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		System.out.println("Right Lift Voltage: " + climbSubsystem.rightPot.getVoltage());
-		System.out.println("Left Lift Voltage: " + climbSubsystem.leftPot.getVoltage());
-		System.out.println("Cube Dart Voltage: " + cubeSubsystem.getPot().getVoltage());
+		//System.out.println("Right Lift Voltage: " + climbSubsystem.rightPot.getVoltage());
+		//System.out.println("Left Lift Voltage: " + climbSubsystem.leftPot.getVoltage());
+		//System.out.println("Cube Dart Voltage: " + cubeSubsystem.getPot().getVoltage());
 		
 		cubeSubsystem.setClosedLoopControl(true);
 		

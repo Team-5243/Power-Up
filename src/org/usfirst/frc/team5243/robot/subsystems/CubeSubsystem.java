@@ -70,7 +70,7 @@ public class CubeSubsystem extends Subsystem {
 	 * Retracts the cube mechanism.
 	 */
 	public void retractCubeDart() {
-		if(potentiometer.getVoltage() > .8) actuator.set(-1);
+		if(potentiometer.getVoltage() > 0/*.8*/) actuator.set(-1);
 		else actuator.set(0);
 	}
 	
@@ -137,17 +137,17 @@ public class CubeSubsystem extends Subsystem {
 			System.out.println("Left Cube: Forward"); //**Release**
 		} else {
 			leftSolenoid.set(Value.kReverse);
-			System.out.println("Left Cube: Reverse"); //**Clamp Down**
+			System.out.println("Left Cube: Reverse"); //**Close**
 		}
 	}
 	
 	public void toggleRightSol() {
 		if (rightSolenoid.get().equals(Value.kReverse) || rightSolenoid.get().equals(Value.kOff)) {
 			rightSolenoid.set(Value.kForward);
-			System.out.println("Right Cube: Forward"); //**Elev Sol Drop** 
+			System.out.println("Right Cube: Forward"); //**Release** 
 		} else {
 			rightSolenoid.set(Value.kReverse);
-			System.out.println("Right Cube: Reverse"); //**Elev Sol Raise**
+			System.out.println("Right Cube: Reverse"); //**Close**
 		}
 	}
 	

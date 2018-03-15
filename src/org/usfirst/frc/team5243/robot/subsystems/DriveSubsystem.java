@@ -9,7 +9,6 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -38,6 +37,7 @@ public class DriveSubsystem extends Subsystem {
 	SpeedControllerGroup right;
 
 	DifferentialDrive drive;
+	DifferentialDrive noCims;
 
 	AHRS gyro;
 	
@@ -64,11 +64,11 @@ public class DriveSubsystem extends Subsystem {
 		
 		//@param double secondsFromNeutralToFull, int timeoutMs
 		
-		frontRight.configOpenloopRamp(1.25, 0); 
-		frontLeft.configOpenloopRamp(1.25, 0);
-		backLeft.configOpenloopRamp(1.25, 0);
-		backRight.configOpenloopRamp(1.25, 0);
-		
+//		frontRight.configOpenloopRamp(1.25, 0); 
+//		frontLeft.configOpenloopRamp(1.25, 0);
+//		backLeft.configOpenloopRamp(1.25, 0);
+//		backRight.configOpenloopRamp(1.25, 0);
+//		
 		left = new SpeedControllerGroup(frontLeft, backLeft);
 		right = new SpeedControllerGroup(frontRight, backRight);
 		
@@ -76,7 +76,7 @@ public class DriveSubsystem extends Subsystem {
 		encoder.setDistancePerPulse(5);
 
 		drive = new DifferentialDrive(left, right);
-
+		noCims = new DifferentialDrive(frontLeft, frontRight);
 		gyro = new AHRS(SPI.Port.kMXP);
 		gyro.reset();
 		gyro.zeroYaw();
@@ -183,7 +183,8 @@ public class DriveSubsystem extends Subsystem {
 		encoder.reset();
 		while (encoder.getDistance() / mult <= distance) {
 			System.out.println(encoder.getDistance()+" "+encoder.getDistance()/mult+" "+distance);
-			drive.tankDrive(.85, .85);
+			//drive.tankDrive(.8, .8);
+			noCims.tankDrive(.8, .8);
 			Timer.delay(.01);
 			double curYaw = gyro.getYaw();
 			autoCorrect(curYaw - lastYaw);
@@ -192,11 +193,48 @@ public class DriveSubsystem extends Subsystem {
 		stopMotors();
 	}
 	
+	double lastAccelerationX;
+	double lastAccelerationY;
+	
+	private final double COLLISION_THRESHOLD = 0.5;
+	
+	/*public void driveBack(double distance) {
+		lastAccelerationX = 0.0;
+		lastAccelerationY = 0.0;
+		double lastYaw = gyro.getYaw();
+		double mult = -80;
+		//double startEncoderPos = encoder.getDistance();
+		encoder.reset();
+		while (encoder.getDistance() / mult <= distance) {
+			System.out.println(encoder.getDistance()+" "+encoder.getDistance()/mult+" "+distance);
+			drive.tankDrive(-.85, -.85);
+			Timer.delay(.01);
+			double curYaw = gyro.getYaw();
+			autoCorrect(curYaw - lastYaw);
+			lastYaw = curYaw;
+		}
+		stopMotors();
+	}*/
+	
+	public void driveBack() {
+		noCims.tankDrive(-.4, -.4);
+	}
+	
+	public boolean hasCollided() {
+		double currentAccelerationX = gyro.getWorldLinearAccelX();
+		double currentAccelerationY = gyro.getWorldLinearAccelY();
+		Timer.delay(.01d);
+		double currentJerkX = currentAccelerationX - lastAccelerationX;
+		lastAccelerationX = currentAccelerationX;
+		double currentJerkY = currentAccelerationY - lastAccelerationY;
+		lastAccelerationY = currentAccelerationY;
+		return ((Math.abs(currentJerkX) > COLLISION_THRESHOLD) || (Math.abs(currentJerkY) > COLLISION_THRESHOLD));
+	}
+	
 	public void softStop() {
 		double speed = .8;
 		double lastYaw = gyro.getYaw();
 		double mult = -80;
-		
 		//double startEncoderPos = encoder.getDistance();
 		encoder.reset();
 		while (encoder.getDistance() / mult <= 8) {
@@ -255,7 +293,7 @@ public class DriveSubsystem extends Subsystem {
 	/**
 	 * Drives forward until the distance is reached
 	 * 
-	 * @param distance
+	 * @param distance.
 	 *            the distance the robot is supposed to drive forward in meters
 	 */
 
@@ -290,7 +328,7 @@ public class DriveSubsystem extends Subsystem {
 	}
 
 	/**
-	 * 
+	 *  
 	 * @return whether the robot's drive train is completely still
 	 */
 	public boolean isStopped() {

@@ -33,7 +33,7 @@ public class RobotMap {
 	
 	public static final int cubeCompressor = 0;
 	
-	public static final int cubePotentiometer = 3;
+	public static final int cubePotentiometer = 2;
 	public static final int cubeActuator = 1;
 	
 	public static final int leftPotentiometer = 1;
