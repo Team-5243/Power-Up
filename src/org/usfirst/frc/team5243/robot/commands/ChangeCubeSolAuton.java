@@ -29,7 +29,7 @@ public class ChangeCubeSolAuton extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	cubeSubsystem.setLeftCubeSolenoid(direction);
-    	cubeSubsystem.setRightCubeSolenoid(direction);
+    	//cubeSubsystem.setRightCubeSolenoid(direction);
     } 
 
     // Called repeatedly when this Command is scheduled to run

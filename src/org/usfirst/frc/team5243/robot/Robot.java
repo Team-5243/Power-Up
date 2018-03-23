@@ -38,7 +38,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 	public static OI oi;
 	String gameData;
-	int pos = 1; //Hardcode for every match just in case
+	int pos = 3; //Hardcode for every match just in case
 
 	public static DriveSubsystem driveSubsystem = new DriveSubsystem();
 	public static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
 		UsbCamera cam = CameraServer.getInstance().startAutomaticCapture();
 		cam.setFPS(60);
 		
-		//gameData = "ALA"; 
+		//gameData = "RRA"; 
 		gameData = DriverStation.getInstance().getGameSpecificMessage(); //TODO: Determine and Finalize Auton and Positions
 		SmartDashboard.putString("gameDataString", gameData);
 		SmartDashboard.putNumber("Position", pos);
@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putString("gameDataString", gameData);
 		System.out.println("gameData: " + gameData);
 		
-		//driveCommand = new Pos1_ScaleCloser();
+		//driveCommand = new DriveToBaseline();
 		//driveCommand.start();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -129,13 +129,28 @@ public class Robot extends TimedRobot {
 		switch (position) {
 		case 1:
 			if (gameData.length() > 0) {
-				if (gameData.charAt(0) == 'L') {
-					driveCommand = new Pos1_SwitchCloser(); //Pos1_ScaleCloser();
+				//Switch Prioritize
+				
+				
+				/*if (gameData.charAt(0) == 'L') {
+					driveCommand = new Pos1_SwitchCloser();
 					System.out.println("switch on our side");
 					driveCommand.start();
 				} else if (gameData.charAt(1) == 'L') {
 					driveCommand = new Pos1_ScaleCloser();
 					System.out.println("scale on our side");
+					driveCommand.start();
+				}*/
+				
+				//Scale Prioritize
+				
+				if (gameData.charAt(1) == 'L') {
+					driveCommand = new Pos1_ScaleCloser();
+					System.out.println("scale on our side");
+					driveCommand.start();
+				} else if (gameData.charAt(0) == 'L') {
+					driveCommand = new Pos1_SwitchCloser();
+					System.out.println("switch on our side");
 					driveCommand.start();
 				} else {
 					driveCommand = new DriveToBaseline();
@@ -167,14 +182,30 @@ public class Robot extends TimedRobot {
 			break;
 		case 3:
 			if (gameData.length() > 0) {
-				if (gameData.charAt(0) == 'R') {
+				
+				//Switch Prioritize
+				
+				/*if (gameData.charAt(0) == 'R') {
 					driveCommand = new Pos3_SwitchCloser();
 					driveCommand.start();
 				} else if (gameData.charAt(1) == 'R') {
 					driveCommand = new Pos3_ScaleCloser();
 					driveCommand.start();
+				}*/
+				
+				//Scale Prioritize
+				
+				if (gameData.charAt(1) == 'R') {
+					driveCommand = new Pos3_ScaleCloser();
+					System.out.println("scale on our side");
+					driveCommand.start();
+				} else if (gameData.charAt(0) == 'R') {
+					driveCommand = new Pos3_SwitchCloser();
+					System.out.println("switch on our side");
+					driveCommand.start();
 				} else {
 					driveCommand = new DriveToBaseline();
+					System.out.println("The force is not on our side");
 					driveCommand.start();
 				}
 				
@@ -190,6 +221,7 @@ public class Robot extends TimedRobot {
 			driveCommand.start();
 			break;
 		}
+	
 
 	}
 

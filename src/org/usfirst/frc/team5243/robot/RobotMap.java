@@ -25,10 +25,10 @@ public class RobotMap {
 	public static final int leftClimb = 4;
 	public static final int rightClimb = 7;
 	
-	public static final int cubeSolenoidLeftF = 7;
+	public static final int cubeSolenoidLeftF = 7;//Red and Yellow
 	public static final int cubeSolenoidLeftR = 6;
 	
-	public static final int cubeSolenoidRightF = 3; //TODO: Placement values
+	public static final int cubeSolenoidRightF = 3; //Blue and Green
 	public static final int cubeSolenoidRightR = 2;
 	
 	public static final int cubeCompressor = 0;

@@ -32,7 +32,7 @@ public class Pos2_SwitchRight extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addParallel(new CubeDartCommandAuton(true, .93));
+    	//addParallel(new CubeDartCommandAuton(true, .93));
     	addSequential(new DriveStraight(6));
     	addSequential(new TurnRight(45));
     	addSequential(new DriveStraight(68));

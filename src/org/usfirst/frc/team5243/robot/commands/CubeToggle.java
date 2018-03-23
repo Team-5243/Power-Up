@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj.command.Command;
 
  
  
-public class CubeLeftToggle extends Command {
+public class CubeToggle extends Command {
 	
 	CubeSubsystem cubeSubsystem;
 	
 	/**
 	 * Command for toggling the state of the cube mehcanism solenoid
 	 */
-    public CubeLeftToggle() {
+    public CubeToggle() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	cubeSubsystem = Robot.cubeSubsystem;
@@ -29,6 +29,7 @@ public class CubeLeftToggle extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	cubeSubsystem.toggleLeftSol();
+    	cubeSubsystem.toggleRightSol();
     	//System.out.println("Cube Toggled");
     }
 

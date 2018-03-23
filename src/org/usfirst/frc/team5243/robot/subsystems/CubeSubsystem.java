@@ -17,7 +17,7 @@ public class CubeSubsystem extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	DoubleSolenoid leftSolenoid; //clamp left sol
-	DoubleSolenoid rightSolenoid; //clamp right sol
+	//DoubleSolenoid rightSolenoid; //clamp right sol
 	AnalogInput potentiometer;
 	WPI_TalonSRX actuator;
 	
@@ -29,7 +29,7 @@ public class CubeSubsystem extends Subsystem {
 	 */
 	public CubeSubsystem() {
 		leftSolenoid = new DoubleSolenoid(RobotMap.cubeSolenoidLeftF, RobotMap.cubeSolenoidLeftR);
-		rightSolenoid = new DoubleSolenoid(RobotMap.cubeSolenoidRightF, RobotMap.cubeSolenoidRightR);
+		//rightSolenoid = new DoubleSolenoid(RobotMap.cubeSolenoidRightF, RobotMap.cubeSolenoidRightR);
 		actuator = new WPI_TalonSRX(RobotMap.cubeActuator);
 		actuator.setSafetyEnabled(false);
 		potentiometer = new AnalogInput(RobotMap.cubePotentiometer);
@@ -82,6 +82,9 @@ public class CubeSubsystem extends Subsystem {
 			actuator.set(1);
 		}
 		else actuator.set(0.0);
+		//actuator.set(1);
+		//Thread.sleep(1000);
+		//actuator.set(0.0);
 	}
 	
 	/**
@@ -93,6 +96,9 @@ public class CubeSubsystem extends Subsystem {
 			return;
 		}
 		actuator.set(0.0);
+		//actuator.set(-1);
+		//Thread.sleep(1000);
+		//actuator.set(0.0);
 	}
 	
 	/**
@@ -106,6 +112,9 @@ public class CubeSubsystem extends Subsystem {
 		if(potentiometer.getVoltage() < voltage) {
 			actuator.set(1);
 		} else actuator.set(0.0);
+		//actuator.set(1);
+		//Thread.sleep(1000);
+		//actuator.set(0.0);
 	}
 	
 	public void retractDartAuton(double voltage) {
@@ -114,6 +123,9 @@ public class CubeSubsystem extends Subsystem {
 		if(potentiometer.getVoltage() > voltage) {
 			actuator.set(-1);
 		} else actuator.set(0.0);
+		//actuator.set(-1);
+		//Thread.sleep(1000);
+		//actuator.set(0.0);
 	}
 
 	/**
@@ -125,7 +137,7 @@ public class CubeSubsystem extends Subsystem {
 	}
 	
 	public void setRightCubeSolenoid(Value direction) {
-		rightSolenoid.set(direction);
+		//rightSolenoid.set(direction);
 	}
 
 	/**x
@@ -142,13 +154,13 @@ public class CubeSubsystem extends Subsystem {
 	}
 	
 	public void toggleRightSol() {
-		if (rightSolenoid.get().equals(Value.kReverse) || rightSolenoid.get().equals(Value.kOff)) {
+		/*if (rightSolenoid.get().equals(Value.kReverse) || rightSolenoid.get().equals(Value.kOff)) {
 			rightSolenoid.set(Value.kForward);
 			System.out.println("Right Cube: Forward"); //**Release** 
 		} else {
 			rightSolenoid.set(Value.kReverse);
 			System.out.println("Right Cube: Reverse"); //**Close**
-		}
+		}*/
 	}
 	
 	public void setClosedLoopControl(boolean on) {
@@ -165,9 +177,6 @@ public class CubeSubsystem extends Subsystem {
 	}
 	public DoubleSolenoid getSolenoidCube() {
 		return leftSolenoid;
-	}
-	public DoubleSolenoid getSolenoidElev() {
-		return rightSolenoid;
 	}
 	
 	public boolean compressorEnabled() {

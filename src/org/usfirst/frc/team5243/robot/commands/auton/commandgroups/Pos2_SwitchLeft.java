@@ -33,7 +33,7 @@ public class Pos2_SwitchLeft extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	//addSequential(new ChangeSolenoid(Value.kForward));
-    	addParallel(new CubeDartCommandAuton(true, .93));
+    	//addParallel(new CubeDartCommandAuton(true, .93));
     	addSequential(new DriveStraight(6));
     	addSequential(new TurnLeft(45));
     	addSequential(new DriveStraight(68));

@@ -9,8 +9,7 @@ package org.usfirst.frc.team5243.robot;
 
 import org.usfirst.frc.team5243.robot.commands.ClimbCommandTeleop;
 import org.usfirst.frc.team5243.robot.commands.CubeDartCommandTeleop;
-import org.usfirst.frc.team5243.robot.commands.CubeLeftToggle;
-import org.usfirst.frc.team5243.robot.commands.CubeRightToggle;
+import org.usfirst.frc.team5243.robot.commands.CubeToggle;
 
 //import org.usfirst.frc.team5243.robot.commands.ClimbCommand;
 //import org.usfirst.frc.team5243.robot.commands.CubeCommand;
@@ -33,8 +32,8 @@ public class OI {
 	Button lift;
 	Button lower;
 	
-	Button cubeLeftSol;
-	Button cubeRightSol;
+	Button cubeSol;
+	//Button cubeRightSol;
 	
 	Button cubeExtend;
 	Button cubeRetract;
@@ -45,15 +44,15 @@ public class OI {
 	 * Initializes the joysticks and buttons. Assigns buttons to commands.
 	 */
 	public void init() {
-		rightstick = new Joystick(1);
 		leftstick = new Joystick(0);
+		rightstick = new Joystick(1);
 		//piston = new JoystickButton(leftstick, 4);
 		//buttons assocated with potentiometers for the dart actuators used for extending the arm and pushing the cube mechanism
 		lift = new JoystickButton(rightstick, 5);
 		lower = new JoystickButton(rightstick, 3);
 		
-		cubeLeftSol = new JoystickButton(leftstick, 1);
-		cubeRightSol = new JoystickButton(rightstick, 1);
+		cubeSol = new JoystickButton(rightstick, 1);
+		//cubeRightSol = new JoystickButton(rightstick, 1);
 		
 		cubeExtend = new JoystickButton(rightstick, 6);
 		cubeRetract = new JoystickButton(rightstick, 4);
@@ -64,8 +63,8 @@ public class OI {
 		cubeExtend.whileHeld(new CubeDartCommandTeleop(true));
 		cubeRetract.whileHeld(new CubeDartCommandTeleop(false));
 
-		cubeLeftSol.whenPressed(new CubeLeftToggle());
-		cubeRightSol.whenPressed(new CubeRightToggle());
+		cubeSol.whenPressed(new CubeToggle());
+		//cubeRightSol.whenPressed(new CubeRightToggle());
 	}
 	
 	/**

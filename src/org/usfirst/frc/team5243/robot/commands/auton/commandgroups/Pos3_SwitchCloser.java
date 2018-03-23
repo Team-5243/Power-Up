@@ -33,7 +33,7 @@ public class Pos3_SwitchCloser extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new ChangeCubeSolAuton(Value.kReverse));
-    	addParallel(new CubeDartCommandAuton(true, .93));
+    	//addParallel(new CubeDartCommandAuton(true, .93));
     	addSequential(new DriveStraight(135));
     	addSequential(new ClimbCommandAuton(true, .5));
     	addSequential(new TurnLeft(65));

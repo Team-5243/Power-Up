@@ -33,8 +33,8 @@ public class Pos1_ScaleCloser extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new ChangeCubeSolAuton(Value.kReverse));
-    	addParallel(new CubeDartCommandAuton(true, .93));
-    	addSequential(new DriveStraight(278));
+    	//addParallel(new CubeDartCommandAuton(true, .93));
+    	addSequential(new DriveStraight(326));
     	addSequential(new ClimbCommandAuton(true, 1));
     	//addSequential(new ChangePistonElevAuton(Value.kReverse));
     	addSequential(new TurnRight(55));

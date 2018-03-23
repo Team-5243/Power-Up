@@ -34,7 +34,7 @@ public class Pos1_ScaleFarther extends CommandGroup { //TODO: test and fix any m
 		addSequential(new ChangeCubeSolAuton(Value.kReverse));
 		addSequential(new DriveStraight(222)); //18.5 feet <POSSIBLY TOO SHORT>
 		addSequential(new TurnRight(55)); //65 equals 90 for some reason... idk
-		addParallel(new CubeDartCommandAuton(true, .93)); //may need to be moved
+		//addParallel(new CubeDartCommandAuton(true, .93)); //may need to be moved
 		addSequential(new DriveStraight(216)); //18 feet <POSSIBLY TOO FAR>
 		//addSequential(new ChangePistonElevAuton(Value.kReverse)); //may need to be moved
 		addSequential(new TurnLeft(55));

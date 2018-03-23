@@ -65,13 +65,13 @@ public class ClimbSubsystem extends Subsystem {
 			Robot.cubeSubsystem.retractCubeDart();
 			System.out.println("Retracting Cube Dart to stay within the size limit");
 		}*/
-		if(leftPot.getVoltage() > 0.15) {
+		if(leftPot.getVoltage() > 0.27) {
 			leftClimb.set(-.5);
 		}
 		else {
 			leftClimb.set(0);
 		}
-		if(rightPot.getVoltage() > 0.35) {
+		if(rightPot.getVoltage() > 0.36) {
 			rightClimb.set(-.47);
 		}
 		else {

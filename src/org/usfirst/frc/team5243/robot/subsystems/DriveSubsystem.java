@@ -37,7 +37,7 @@ public class DriveSubsystem extends Subsystem {
 	SpeedControllerGroup right;
 
 	DifferentialDrive drive;
-	DifferentialDrive noCims;
+	//DifferentialDrive noCims;
 
 	AHRS gyro;
 	
@@ -64,11 +64,11 @@ public class DriveSubsystem extends Subsystem {
 		
 		//@param double secondsFromNeutralToFull, int timeoutMs
 		
-//		frontRight.configOpenloopRamp(1.25, 0); 
-//		frontLeft.configOpenloopRamp(1.25, 0);
-//		backLeft.configOpenloopRamp(1.25, 0);
-//		backRight.configOpenloopRamp(1.25, 0);
-//		
+		frontRight.configOpenloopRamp(1.25, 0); 
+		frontLeft.configOpenloopRamp(1.25, 0);
+		backLeft.configOpenloopRamp(1.25, 0);
+		backRight.configOpenloopRamp(1.25, 0);
+		
 		left = new SpeedControllerGroup(frontLeft, backLeft);
 		right = new SpeedControllerGroup(frontRight, backRight);
 		
@@ -76,7 +76,7 @@ public class DriveSubsystem extends Subsystem {
 		encoder.setDistancePerPulse(5);
 
 		drive = new DifferentialDrive(left, right);
-		noCims = new DifferentialDrive(frontLeft, frontRight);
+		//noCims = new DifferentialDrive(frontLeft, frontRight);
 		gyro = new AHRS(SPI.Port.kMXP);
 		gyro.reset();
 		gyro.zeroYaw();
@@ -183,8 +183,9 @@ public class DriveSubsystem extends Subsystem {
 		encoder.reset();
 		while (encoder.getDistance() / mult <= distance) {
 			System.out.println(encoder.getDistance()+" "+encoder.getDistance()/mult+" "+distance);
-			//drive.tankDrive(.8, .8);
-			noCims.tankDrive(.8, .8);
+			//frontLeft.set(.8);
+			//frontRight.set(.8);
+			drive.tankDrive(.8, .8);
 			Timer.delay(.01);
 			double curYaw = gyro.getYaw();
 			autoCorrect(curYaw - lastYaw);
@@ -217,7 +218,10 @@ public class DriveSubsystem extends Subsystem {
 	}*/
 	
 	public void driveBack() {
-		noCims.tankDrive(-.4, -.4);
+		//noCims.tankDrive(-.4, -.4);
+		frontRight.set(-.5);
+		frontLeft.set(-.5);
+		
 	}
 	
 	public boolean hasCollided() {
