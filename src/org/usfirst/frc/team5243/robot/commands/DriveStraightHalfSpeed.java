@@ -1,46 +1,46 @@
 package org.usfirst.frc.team5243.robot.commands;
 
 import org.usfirst.frc.team5243.robot.Robot;
-import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
+import org.usfirst.frc.team5243.robot.subsystems.DriveSubsystem;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ *
+ */
+public class DriveStraightHalfSpeed extends Command {
 
-
-
-public class ChangeCubeSolAuton extends Command {
-
-	Value direction;
-	CubeSubsystem cubeSubsystem;
-	
+	DriveSubsystem driveSubsystem;
+	double dis;
+	boolean isFinished;
 	/**
-	 * Contructor for changing the state of the solenoid
-	 * @param on the state the solenoid should be
-	 * "Reverse" : Close
-	 * "Forward" : Open
+	 * Command for driving the robot straight
+	 * @param distance the distance the robot should drive straight
 	 */
-    public ChangeCubeSolAuton(Value direction) {
+    public DriveStraightHalfSpeed(double distance) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	this.direction = direction;
-    	cubeSubsystem = Robot.cubeSubsystem;
-    	requires(cubeSubsystem);
+    	dis = distance;
+    	driveSubsystem = Robot.driveSubsystem;
+    	requires(driveSubsystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	cubeSubsystem.setLeftCubeSolenoid(direction);
-    	//cubeSubsystem.setRightCubeSolenoid(direction);
-    } 
+    	driveSubsystem.zeroYaw();
+    	driveSubsystem.driveStraight(dis);
+    	isFinished = true;
+    }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	System.out.println("DriveStraightHalfSpeed is running");
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return isFinished;
     }
 
     // Called once after isFinished returns true

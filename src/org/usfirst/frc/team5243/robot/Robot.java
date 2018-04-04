@@ -10,7 +10,10 @@ package org.usfirst.frc.team5243.robot;
 import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.DriveToBaseline;
 import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_ScaleCloser;
 import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_SwitchCloser;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos2_SwitchLeft;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos2_SwitchRight;
 import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_ScaleCloser;
+import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_ScaleFarther;
 import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_SwitchCloser;
 import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
@@ -37,8 +40,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 	public static OI oi;
+	
 	String gameData;
 	int pos = 3; //Hardcode for every match just in case
+	//boolean isScale = true;
 
 	public static DriveSubsystem driveSubsystem = new DriveSubsystem();
 	public static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
@@ -51,7 +56,7 @@ public class Robot extends TimedRobot {
 
 	/**
 	 * This function is run when the robot is first started up and should be used
-	 * for any initialization code.
+	 * for any initialization c0eode.
 	 */
 	@Override
 	public void robotInit() {
@@ -70,10 +75,11 @@ public class Robot extends TimedRobot {
 		UsbCamera cam = CameraServer.getInstance().startAutomaticCapture();
 		cam.setFPS(60);
 		
-		//gameData = "RRA"; 
+		//gameData = "LRA"; 
 		gameData = DriverStation.getInstance().getGameSpecificMessage(); //TODO: Determine and Finalize Auton and Positions
 		SmartDashboard.putString("gameDataString", gameData);
 		SmartDashboard.putNumber("Position", pos);
+		//SmartDashboard.putBoolean("Scale Prioritized", isScale);
 
 	}
 
@@ -111,9 +117,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		gameData = DriverStation.getInstance().getGameSpecificMessage(); //TODO: Determine and Finalize Auton and Positions
+		//gameData = "RLR";
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		SmartDashboard.putString("gameDataString", gameData);
-		System.out.println("gameData: " + gameData);
+		//System.out.println("gameData: " + gameData);
 		
 		//driveCommand = new DriveToBaseline();
 		//driveCommand.start();
@@ -125,14 +132,16 @@ public class Robot extends TimedRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		int position = (int) SmartDashboard.getNumber("Position", pos);
+		int position = (int) SmartDashboard.getNumber("Position", pos); // Just in case hardcode position is incorrect
+		System.out.println(position);
+		//boolean scaley = (boolean) SmartDashboard.getBoolean("Scale Prioritized", isScale);
 		switch (position) {
 		case 1:
 			if (gameData.length() > 0) {
+				
 				//Switch Prioritize
-				
-				
-				/*if (gameData.charAt(0) == 'L') {
+				/*
+				if (gameData.charAt(0) == 'L') {
 					driveCommand = new Pos1_SwitchCloser();
 					System.out.println("switch on our side");
 					driveCommand.start();
@@ -140,19 +149,49 @@ public class Robot extends TimedRobot {
 					driveCommand = new Pos1_ScaleCloser();
 					System.out.println("scale on our side");
 					driveCommand.start();
-				}*/
+				}
+				*/
 				
 				//Scale Prioritize
 				
 				if (gameData.charAt(1) == 'L') {
 					driveCommand = new Pos1_ScaleCloser();
-					System.out.println("scale on our side");
+					System.out.println("Scale Pos 1");
 					driveCommand.start();
 				} else if (gameData.charAt(0) == 'L') {
 					driveCommand = new Pos1_SwitchCloser();
-					System.out.println("switch on our side");
+					System.out.println("Switch Pos 1");
 					driveCommand.start();
+				}
+				
+				
+				// Scale or Switch Priority with SmartDashboard
+				
+				/*if(!scaley) {
+					if (gameData.charAt(0) == 'L') {
+						driveCommand = new Pos1_SwitchCloser();
+						System.out.println("Switch Pos 1");
+						driveCommand.start();
+					} else if (gameData.charAt(1) == 'L') {
+						driveCommand = new Pos1_ScaleCloser();
+						System.out.println("Scale Pos 1");
+						driveCommand.start();
+					}
 				} else {
+					if (gameData.charAt(1) == 'L') {
+						driveCommand = new Pos1_ScaleCloser();
+						System.out.println("Scale Pos 1");
+						driveCommand.start();
+					} else if (gameData.charAt(0) == 'L') {
+						driveCommand = new Pos1_SwitchCloser();
+						System.out.println("Switch Pos 1");
+						driveCommand.start();
+					}
+				}*/
+				
+				
+				//DO NOT COMMENT OUT THIS!!!
+				else {
 					driveCommand = new DriveToBaseline();
 					System.out.println("The force is not on our side");
 					driveCommand.start();
@@ -167,10 +206,12 @@ public class Robot extends TimedRobot {
 		case 2:
 			if (gameData.length() > 0) {
 				if (gameData.charAt(0) == 'L') {
-					driveCommand = new DriveToBaseline(); //Pos2_SwitchLeft;
+					driveCommand = new Pos2_SwitchLeft();
+					System.out.println("Pos 2 Left Running");
 					driveCommand.start();
 				} else {
-					driveCommand = new DriveToBaseline(); //Pos2_SwitchRight;
+					driveCommand = new Pos2_SwitchRight();
+					System.out.println("Pos 2 Right Running");
 					driveCommand.start();
 				}
 
@@ -184,26 +225,53 @@ public class Robot extends TimedRobot {
 			if (gameData.length() > 0) {
 				
 				//Switch Prioritize
-				
-				/*if (gameData.charAt(0) == 'R') {
+				/*
+				if (gameData.charAt(0) == 'R') {
 					driveCommand = new Pos3_SwitchCloser();
 					driveCommand.start();
 				} else if (gameData.charAt(1) == 'R') {
 					driveCommand = new Pos3_ScaleCloser();
 					driveCommand.start();
-				}*/
+				}
+				*/
 				
 				//Scale Prioritize
 				
 				if (gameData.charAt(1) == 'R') {
 					driveCommand = new Pos3_ScaleCloser();
-					System.out.println("scale on our side");
+					System.out.println("Scale Pos 3");
 					driveCommand.start();
 				} else if (gameData.charAt(0) == 'R') {
 					driveCommand = new Pos3_SwitchCloser();
-					System.out.println("switch on our side");
+					System.out.println("Switch Pos 3");
 					driveCommand.start();
+				}
+
+				// Scale or Switch Priority with SmartDashboard
+				
+				/*if(!scaley) {
+					if (gameData.charAt(0) == 'R') {
+					driveCommand = new Pos3_SwitchCloser();
+					driveCommand.start();
+				} else if (gameData.charAt(1) == 'R') {
+					driveCommand = new Pos3_ScaleCloser();
+					driveCommand.start();
+				}
 				} else {
+					if (gameData.charAt(1) == 'R') {
+					driveCommand = new Pos3_ScaleCloser();
+					System.out.println("Scale Pos 3");
+					driveCommand.start();
+				} else if (gameData.charAt(0) == 'R') {
+					driveCommand = new Pos3_SwitchCloser();
+					System.out.println("Switch Pos 3");
+					driveCommand.start();
+				}
+
+			}*/
+				
+				//DO NOT COMMENT OUT THIS!!!
+				else {
 					driveCommand = new DriveToBaseline();
 					System.out.println("The force is not on our side");
 					driveCommand.start();
@@ -221,7 +289,8 @@ public class Robot extends TimedRobot {
 			driveCommand.start();
 			break;
 		}
-	
+		//driveCommand = new Pos3_ScaleFarther();
+		//driveCommand.start();
 
 	}
 

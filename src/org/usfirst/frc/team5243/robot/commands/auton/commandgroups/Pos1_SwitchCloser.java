@@ -19,10 +19,10 @@ public class Pos1_SwitchCloser extends CommandGroup {
         // eg. requires(chassis);
     	addSequential(new ChangeCubeSolAuton(Value.kReverse));
     	//addParallel(new CubeDartCommandAuton(true, .93));
-    	addSequential(new DriveStraight(135));
+    	addSequential(new DriveStraight(147)); //135
     	addSequential(new ClimbCommandAuton(true, .5));
-    	addSequential(new TurnRight(65));
-    	addSequential(new DriveStraight(12));     	
+    	addSequential(new TurnRight(55)); //65
+    	addSequential(new DriveStraight(24)); //12     	
     	addSequential(new ChangeCubeSolAuton(Value.kForward));
     }
 

@@ -15,6 +15,9 @@ public class ClimbSubsystem extends Subsystem {
 	WPI_TalonSRX rightClimb;
 	public AnalogInput leftPot;
 	public AnalogInput rightPot;
+	
+	double mul = 1.5;
+	double sub = .2;
 
 	/**
 	 * The climb subsystem that relates to the climb mechanism.
@@ -40,13 +43,13 @@ public class ClimbSubsystem extends Subsystem {
 		}*/
 		/*leftClimb.set(.7);
 		rightClimb.set(.7);*/
-		if(leftPot.getVoltage() < 3.85) {
-			leftClimb.set(.7);
+		if(leftPot.getVoltage() < 4.1) {
+			leftClimb.set(.8);
 		}
 		else {
 			leftClimb.set(0);
 		}
-		if(rightPot.getVoltage() < 4.15) {
+		if(rightPot.getVoltage() < 4.3) {
 			rightClimb.set(.8);
 		}
 		else {
@@ -60,19 +63,20 @@ public class ClimbSubsystem extends Subsystem {
 	 * Lowers the climb mechanism through the joysticks
 	 */
 	public void lowerTeleop() {
+		
 		//if(!(((getLeftPotVoltage() < 4.15 && getLeftPotVoltage() > 3.15) && (getRightPotVoltage() < 4.15 && getRightPotVoltage() > 3.15)) || ((getLeftPotVoltage() < 1.15 && getLeftPotVoltage() > .15) && (getRightPotVoltage() < 1.15 && getRightPotVoltage() > .15)))) {
 		/*if((getLeftPotVoltage() < 3.15 && getLeftPotVoltage() > 1.2) && (getRightPotVoltage() < 3.15 && getRightPotVoltage() > 1.2)) {
 			Robot.cubeSubsystem.retractCubeDart();
 			System.out.println("Retracting Cube Dart to stay within the size limit");
 		}*/
-		if(leftPot.getVoltage() > 0.27) {
-			leftClimb.set(-.5);
+		if(leftPot.getVoltage() > 0.33 - sub) {
+			leftClimb.set(-.435 * mul);
 		}
 		else {
 			leftClimb.set(0);
 		}
-		if(rightPot.getVoltage() > 0.36) {
-			rightClimb.set(-.47);
+		if(rightPot.getVoltage() > 0.65 - sub) {
+			rightClimb.set(-.425 * mul);
 		}
 		else {
 			rightClimb.set(0);
@@ -88,7 +92,7 @@ public class ClimbSubsystem extends Subsystem {
 		//if(leftPot.getVoltage() > 4.15 && rightPot.getVoltage() > 4.15) 
 		per = (4.15*per);
 		if (leftPot.getVoltage() < per && rightPot.getVoltage() < per) {
-			leftClimb.set(.7);
+			leftClimb.set(.8);
 			rightClimb.set(.8);
 		} else {
 			stopActuators();

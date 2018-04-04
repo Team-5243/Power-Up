@@ -140,6 +140,10 @@ public class DriveSubsystem extends Subsystem {
 	public void zeroYaw() {
 		gyro.zeroYaw();
 	}
+	
+	public double getYaw() {
+		return gyro.getYaw();
+	}
 
 	/**
 	 * 
@@ -186,6 +190,24 @@ public class DriveSubsystem extends Subsystem {
 			//frontLeft.set(.8);
 			//frontRight.set(.8);
 			drive.tankDrive(.8, .8);
+			Timer.delay(.01);
+			double curYaw = gyro.getYaw();
+			autoCorrect(curYaw - lastYaw);
+			lastYaw = curYaw;
+		}
+		stopMotors();
+	}
+	
+	public void driveStraightHalf(double distance) {
+		double lastYaw = gyro.getYaw();
+		double mult = -80;
+		//double startEncoderPos = encoder.getDistance();
+		encoder.reset();
+		while (encoder.getDistance() / mult <= distance) {
+			System.out.println(encoder.getDistance()+" "+encoder.getDistance()/mult+" "+distance);
+			//frontLeft.set(.8);
+			//frontRight.set(.8);
+			drive.tankDrive(.4, .4);
 			Timer.delay(.01);
 			double curYaw = gyro.getYaw();
 			autoCorrect(curYaw - lastYaw);

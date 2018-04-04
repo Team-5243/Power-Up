@@ -34,12 +34,12 @@ public class Pos2_SwitchLeft extends CommandGroup {
         // arm.
     	//addSequential(new ChangeSolenoid(Value.kForward));
     	//addParallel(new CubeDartCommandAuton(true, .93));
-    	addSequential(new DriveStraight(6));
+    	addSequential(new DriveStraight(36));
     	addSequential(new TurnLeft(45));
-    	addSequential(new DriveStraight(68));
-    	addSequential(new TurnRight(50));
+    	addSequential(new DriveStraight(72));
     	addSequential(new ClimbCommandAuton(true, .5));
-    	addSequential(new DriveStraight(40));
+    	addSequential(new TurnRight(35));
+    	addSequential(new DriveStraight(34));
     	addSequential(new ChangeCubeSolAuton(Value.kForward));
     	
     	

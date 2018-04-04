@@ -27,6 +27,7 @@ public class DriveStraight extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	driveSubsystem.zeroYaw();
     	driveSubsystem.driveStraight(dis);
     	isFinished = true;
     }

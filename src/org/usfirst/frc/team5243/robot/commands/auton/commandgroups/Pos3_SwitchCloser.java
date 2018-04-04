@@ -34,10 +34,10 @@ public class Pos3_SwitchCloser extends CommandGroup {
         // arm.
     	addSequential(new ChangeCubeSolAuton(Value.kReverse));
     	//addParallel(new CubeDartCommandAuton(true, .93));
-    	addSequential(new DriveStraight(135));
+    	addSequential(new DriveStraight(147));
     	addSequential(new ClimbCommandAuton(true, .5));
-    	addSequential(new TurnLeft(65));
-    	addSequential(new DriveStraight(12));     	
+    	addSequential(new TurnLeft(55)); //65
+    	addSequential(new DriveStraight(24));     	
     	addSequential(new ChangeCubeSolAuton(Value.kForward));
     }
 }
