@@ -1,27 +1,25 @@
 package org.usfirst.frc.team5243.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
+import org.usfirst.frc.team5243.robot.Robot;
+import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
+
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
-public class ClimbCommand extends Command {
+
+ 
+ 
+public class CubeClampToggle extends Command {
 	
-	/*ClimbSubsystem climbSubsystem;
-	boolean isLift;
-	boolean isFinished;
-	double start;*/
+	CubeSubsystem cubeSubsystem;
 	
-    public ClimbCommand(boolean lift) {
+	/**
+	 * Command for toggling the state of the cube mehcanism solenoid
+	 */
+    public CubeClampToggle() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	/*start = Timer.getFPGATimestamp();
-    	climbSubsystem = new ClimbSubsystem();
-    	requires(climbSubsystem);
-    	isLift = lift;
-    	isFinished = false;*/
-
+    	cubeSubsystem = Robot.cubeSubsystem;
+    	requires(cubeSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -30,31 +28,20 @@ public class ClimbCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	/*if(isLift) {
-    		climbSubsystem.lift();
-    	}
-    	else {
-    		climbSubsystem.lower();
-    	}
-    	if(climbSubsystem.getActuatorSpeed() == 0.0) {
-    		this.end();
-    	}*/
+    	cubeSubsystem.toggleClampCubeSol();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	double end = Timer.getFPGATimestamp();
-    	//climbSubsystem.stopActuators();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	//climbSubsystem.stopActuators();
     }
 }

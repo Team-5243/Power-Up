@@ -13,14 +13,12 @@ import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos1_SwitchCl
 import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos2_SwitchLeft;
 import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos2_SwitchRight;
 import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_ScaleCloser;
-import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_ScaleFarther;
 import org.usfirst.frc.team5243.robot.commands.auton.commandgroups.Pos3_SwitchCloser;
 import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 //import org.usfirst.frc.team5243.robot.subsystems.ClimbSubsystem;
 //import org.usfirst.frc.team5243.robot.subsystems.CubeSubsystem;
 import org.usfirst.frc.team5243.robot.subsystems.DriveSubsystem;
-
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -68,7 +66,6 @@ public class Robot extends TimedRobot {
 		
 		SmartDashboard.putNumber("Right Arm Voltage", climbSubsystem.getRightPotVoltage());
 		SmartDashboard.putNumber("Left Arm Voltage", climbSubsystem.getLeftPotVoltage());
-		SmartDashboard.putNumber("Cube Dart Voltage", cubeSubsystem.getPot().getVoltage());
 		
 		//CameraServer.getInstance().startAutomaticCapture(); //TODO: Test new cam code below with increase FPS?
 		

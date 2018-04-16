@@ -25,16 +25,16 @@ public class RobotMap {
 	public static final int leftClimb = 4;
 	public static final int rightClimb = 7;
 	
-	public static final int cubeSolenoidLeftF = 7;//Red and Yellow
-	public static final int cubeSolenoidLeftR = 6;
+	public static final int clampCubeSolF = 7; //Placeholder value	//Red and Yellow
+	public static final int clampCubeSolR = 6; //Placeholder value
 	
-	public static final int cubeSolenoidRightF = 3; //Blue and Green
-	public static final int cubeSolenoidRightR = 2;
+	public static final int flipCubeSolF = 3; //Placeholder value 	//Blue and Green
+	public static final int flipCubeSolR = 2; //Placeholder value
 	
 	public static final int cubeCompressor = 0;
-	
-	public static final int cubePotentiometer = 2;
-	public static final int cubeActuator = 1;
+
+	public static final int leftBelt = 1; //Placeholder value
+	public static final int rightBelt = 2; //Placeholder value
 	
 	public static final int leftPotentiometer = 1;
 	public static final int rightPotentiometer = 0;

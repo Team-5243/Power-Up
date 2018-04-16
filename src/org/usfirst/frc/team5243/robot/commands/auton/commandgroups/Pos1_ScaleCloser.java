@@ -1,9 +1,8 @@
 package org.usfirst.frc.team5243.robot.commands.auton.commandgroups;
 
-import org.usfirst.frc.team5243.robot.commands.ChangeCubeSolAuton;
-import org.usfirst.frc.team5243.robot.commands.ChangePistonElevAuton;
+import org.usfirst.frc.team5243.robot.commands.CubeClampSolAuton;
+import org.usfirst.frc.team5243.robot.commands.CubeFlipSolAuton;
 import org.usfirst.frc.team5243.robot.commands.ClimbCommandAuton;
-import org.usfirst.frc.team5243.robot.commands.CubeDartCommandAuton;
 import org.usfirst.frc.team5243.robot.commands.auton.DriveStraight;
 import org.usfirst.frc.team5243.robot.commands.auton.TurnRight;
 
@@ -32,16 +31,15 @@ public class Pos1_ScaleCloser extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ChangeCubeSolAuton(Value.kReverse));
-    	//addParallel(new CubeDartCommandAuton(true, .93));
+    	addSequential(new CubeClampSolAuton(Value.kReverse)); //clamps the cube
     	addSequential(new DriveStraight(326));
+    	addSequential(new CubeFlipSolAuton(Value.kForward)); //raises the cube mech upright
     	addSequential(new ClimbCommandAuton(true, 1));
-    	//addSequential(new ChangePistonElevAuton(Value.kReverse));
     	addSequential(new TurnRight(55));
     	addSequential(new DriveStraight(6));
-    	//addSequential(new CubeDartCommandAuton(true, 4.3));
-    	addSequential(new ChangeCubeSolAuton(Value.kForward));
-    	//addSequential(new CubeDartCommandAuton(false, .8));
+    	//addSequential(new CubeFlipSolAuton(Value.kReverse)); //lowers the cube mech
+    	addSequential(new CubeClampSolAuton(Value.kForward)); //releases the cube
+    	//addSequential(new CubeFlipSolAuton(Value.kForward)); //raises the cube mech
     	//cube lift command
     }
 }

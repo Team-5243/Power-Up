@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5243.robot.subsystems;
 
+import org.usfirst.frc.team5243.robot.Robot;
 import org.usfirst.frc.team5243.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -16,23 +17,25 @@ public class CubeSubsystem extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	DoubleSolenoid leftSolenoid; //clamp left sol
-	//DoubleSolenoid rightSolenoid; //clamp right sol
-	AnalogInput potentiometer;
-	WPI_TalonSRX actuator;
+	DoubleSolenoid clampCube; //clamp cube solenoid
+	DoubleSolenoid flipCube; //flip cube mech perpendicular
+	
+	WPI_TalonSRX leftBelt;
+	WPI_TalonSRX rightBelt;
 	
 	public Compressor compressor;
 
-	
 	/**
 	 * The cube subsystem that relates to the cube mechanism.
 	 */
 	public CubeSubsystem() {
-		leftSolenoid = new DoubleSolenoid(RobotMap.cubeSolenoidLeftF, RobotMap.cubeSolenoidLeftR);
-		//rightSolenoid = new DoubleSolenoid(RobotMap.cubeSolenoidRightF, RobotMap.cubeSolenoidRightR);
-		actuator = new WPI_TalonSRX(RobotMap.cubeActuator);
-		actuator.setSafetyEnabled(false);
-		potentiometer = new AnalogInput(RobotMap.cubePotentiometer);
+		clampCube = new DoubleSolenoid(RobotMap.clampCubeSolF, RobotMap.clampCubeSolR);
+		flipCube = new DoubleSolenoid(RobotMap.flipCubeSolF, RobotMap.flipCubeSolR);
+		
+		leftBelt = new WPI_TalonSRX(RobotMap.leftBelt);
+		rightBelt = new WPI_TalonSRX(RobotMap.rightBelt);
+		leftBelt.setSafetyEnabled(false);
+		rightBelt.setSafetyEnabled(false);
 		
 		try {
 			compressor = new Compressor();
@@ -49,118 +52,67 @@ public class CubeSubsystem extends Subsystem {
 		//setDefaultCommand(new CubePSICommand());
 	}
 	
-	public AnalogInput getPot() {
-		return potentiometer;
-		//LIMIT POT VOLTAGE TO .1-4.2 ***VERY IMPORTANT***
-	}
-	
-	public double getCubeDartSpeed() {
-		return actuator.get();
-	}
-	/**
-	 * Extends the cube mechanism
-	 */
-	public void extendCubeDart() {
-		if(potentiometer.getVoltage() < 4.3)  //may need to change .3 to something smaller. Must be bigger than .15
-			actuator.set(1);
-		else actuator.set(0);
-	}
-
-	/**
-	 * Retracts the cube mechanism.
-	 */
-	public void retractCubeDart() {
-		if(potentiometer.getVoltage() > 0/*.8*/) actuator.set(-1);
-		else actuator.set(0);
-	}
-	
-	/**
-	 * Extends the cube mechanism all the way. Used in auton.
-	 */
-	public void fullExtend() {
-		if (potentiometer.getVoltage() < 4.3) {
-			actuator.set(1);
-		}
-		else actuator.set(0.0);
-		//actuator.set(1);
-		//Thread.sleep(1000);
-		//actuator.set(0.0);
-	}
-	
-	/**
-	 * Retracts the cube mechanism all the way. Used in auton.
-	 */
-	public void fullRetract() {
-		if (potentiometer.getVoltage() > .8) {
-			actuator.set(-1);
-			return;
-		}
-		actuator.set(0.0);
-		//actuator.set(-1);
-		//Thread.sleep(1000);
-		//actuator.set(0.0);
-	}
-	
-	/**
-	 * Extends the dart actuator to the specified voltage value during the autonomous period.
-	 * @param voltage determines how far the cube dart will extend. Should be .93 for the partial
-	 * extension needed to lift Cube Elevator Solenoid
-	 */
-	public void extendDartAuton(double voltage) {
-		if(potentiometer.getVoltage() > 4.3) voltage = 4.3;
-		if(potentiometer.getVoltage() < .8) voltage = .8;
-		if(potentiometer.getVoltage() < voltage) {
-			actuator.set(1);
-		} else actuator.set(0.0);
-		//actuator.set(1);
-		//Thread.sleep(1000);
-		//actuator.set(0.0);
-	}
-	
-	public void retractDartAuton(double voltage) {
-		if(potentiometer.getVoltage() > 4.3) voltage = 4.3;
-		if(potentiometer.getVoltage() < .8) voltage = .8;
-		if(potentiometer.getVoltage() > voltage) {
-			actuator.set(-1);
-		} else actuator.set(0.0);
-		//actuator.set(-1);
-		//Thread.sleep(1000);
-		//actuator.set(0.0);
-	}
-
 	/**
 	 * Sets the state of the solenoid
 	 * @param on Solenoid is on or off depending on whether "on" is true or false
 	 */
-	public void setLeftCubeSolenoid(Value direction) {
-		leftSolenoid.set(direction);
+	public void intakeCube() {
+		leftBelt.set(-1);
+		rightBelt.set(-1);
 	}
 	
-	public void setRightCubeSolenoid(Value direction) {
-		//rightSolenoid.set(direction);
+	public void releaseCube() {
+		leftBelt.set(1);
+		rightBelt.set(1);
+	}
+	
+	public void stopBelts() {
+		leftBelt.set(0);
+		rightBelt.set(0);
+	}
+	
+	public void toggleCubeBelts(double speed) {
+		leftBelt.set(speed);
+		rightBelt.set(speed);
+	}
+	
+	public void setClampCubeSol(Value direction) {
+		clampCube.set(direction);
+	}
+	
+	public void setFlipCubeSol(Value direction) {
+		flipCube.set(direction);
 	}
 
-	/**x
+	/**
 	 * Toggles the cube solenoid between the on and off state
 	 */
-	public void toggleLeftSol() {
-		if (leftSolenoid.get().equals(Value.kReverse) || leftSolenoid.get().equals(Value.kOff)) {
-			leftSolenoid.set(Value.kForward);
-			System.out.println("Left Cube: Forward"); //**Release**
+	public void toggleClampCubeSol() {
+		if (clampCube.get().equals(Value.kReverse) || clampCube.get().equals(Value.kOff)) {
+			clampCube.set(Value.kForward);
+			System.out.println("Clamp Cube: Forward"); //**Release**
 		} else {
-			leftSolenoid.set(Value.kReverse);
-			System.out.println("Left Cube: Reverse"); //**Close**
+			clampCube.set(Value.kReverse);
+			System.out.println("Clamp Cube: Reverse"); //**Close**
 		}
 	}
 	
-	public void toggleRightSol() {
-		/*if (rightSolenoid.get().equals(Value.kReverse) || rightSolenoid.get().equals(Value.kOff)) {
-			rightSolenoid.set(Value.kForward);
-			System.out.println("Right Cube: Forward"); //**Release** 
+	public void toggleFlipCubeSol() {
+		if (flipCube.get().equals(Value.kReverse) || flipCube.get().equals(Value.kOff)) {
+			flipCube.set(Value.kForward);
+			System.out.println("Flip Cube: Forward"); //**Up** 
 		} else {
-			rightSolenoid.set(Value.kReverse);
-			System.out.println("Right Cube: Reverse"); //**Close**
-		}*/
+			flipCube.set(Value.kReverse);
+			System.out.println("Flip Cube: Reverse"); //**Down**
+		}
+	}
+	
+	public DoubleSolenoid getClampCubeSol() {
+		return clampCube;
+	}
+	
+	public DoubleSolenoid getFlipCubeSol() {
+		return flipCube;
 	}
 	
 	public void setClosedLoopControl(boolean on) {
@@ -170,13 +122,6 @@ public class CubeSubsystem extends Subsystem {
 	
 	public void disableCompressor() {
 		compressor.stop();
-	}
-	
-	public void stopCubeDart() {
-		actuator.set(0);
-	}
-	public DoubleSolenoid getSolenoidCube() {
-		return leftSolenoid;
 	}
 	
 	public boolean compressorEnabled() {

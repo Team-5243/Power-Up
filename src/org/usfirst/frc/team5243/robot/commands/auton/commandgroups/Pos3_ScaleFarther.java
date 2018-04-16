@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5243.robot.commands.auton.commandgroups;
 
-import org.usfirst.frc.team5243.robot.commands.ChangeCubeSolAuton;
+import org.usfirst.frc.team5243.robot.commands.CubeClampSolAuton;
 import org.usfirst.frc.team5243.robot.commands.ClimbCommandAuton;
 import org.usfirst.frc.team5243.robot.commands.DriveStraightHalfSpeed;
 import org.usfirst.frc.team5243.robot.commands.auton.DriveStraight;
@@ -23,7 +23,7 @@ public class Pos3_ScaleFarther extends CommandGroup { //TODO: test and fix any m
 	 */
 
     public Pos3_ScaleFarther() {
-    	addSequential(new ChangeCubeSolAuton(Value.kReverse));
+    	addSequential(new CubeClampSolAuton(Value.kReverse));
     	addSequential(new DriveStraight(228)); //17 feet <POSSIBLY TOO SHORT>
     	addSequential(new TurnLeft(55)); //65 equals 90 for some reason... idk
     	//addParallel(new CubeDartCommandAuton(true, .93)); //may need to be moved
@@ -31,7 +31,7 @@ public class Pos3_ScaleFarther extends CommandGroup { //TODO: test and fix any m
     	addSequential(new TurnRight(55));
     	addSequential(new ClimbCommandAuton(true, 1));
     	addSequential(new DriveStraightHalfSpeed(54)); //4.5 ft (half speed)
-    	addSequential(new ChangeCubeSolAuton(Value.kForward)); //may need to be moved
+    	addSequential(new CubeClampSolAuton(Value.kForward)); //may need to be moved
     	
     }
 }

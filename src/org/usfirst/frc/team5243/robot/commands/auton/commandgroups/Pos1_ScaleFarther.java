@@ -1,8 +1,7 @@
 package org.usfirst.frc.team5243.robot.commands.auton.commandgroups;
 
-import org.usfirst.frc.team5243.robot.commands.ChangeCubeSolAuton;
-import org.usfirst.frc.team5243.robot.commands.ChangePistonElevAuton;
-import org.usfirst.frc.team5243.robot.commands.CubeDartCommandAuton;
+import org.usfirst.frc.team5243.robot.commands.CubeClampSolAuton;
+import org.usfirst.frc.team5243.robot.commands.CubeFlipSolAuton;
 import org.usfirst.frc.team5243.robot.commands.auton.DriveStraight;
 import org.usfirst.frc.team5243.robot.commands.auton.TurnLeft;
 import org.usfirst.frc.team5243.robot.commands.auton.TurnRight;
@@ -31,7 +30,7 @@ public class Pos1_ScaleFarther extends CommandGroup { //TODO: test and fix any m
 	 */
 
 	public Pos1_ScaleFarther() {
-		addSequential(new ChangeCubeSolAuton(Value.kReverse));
+		addSequential(new CubeClampSolAuton(Value.kReverse));
 		addSequential(new DriveStraight(222)); //18.5 feet <POSSIBLY TOO SHORT>
 		addSequential(new TurnRight(55)); //65 equals 90 for some reason... idk
 		//addParallel(new CubeDartCommandAuton(true, .93)); //may need to be moved
@@ -39,7 +38,7 @@ public class Pos1_ScaleFarther extends CommandGroup { //TODO: test and fix any m
 		//addSequential(new ChangePistonElevAuton(Value.kReverse)); //may need to be moved
 		addSequential(new TurnLeft(55));
 		addSequential(new DriveStraight(24)); //possible too short depends on how far we go before turn left
-		addSequential(new ChangeCubeSolAuton(Value.kForward)); //may need to be moved
+		addSequential(new CubeClampSolAuton(Value.kForward)); //may need to be moved
 
 	}
 }

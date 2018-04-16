@@ -1,8 +1,7 @@
 package org.usfirst.frc.team5243.robot.commands.auton.commandgroups;
 
-import org.usfirst.frc.team5243.robot.commands.ChangeCubeSolAuton;
+import org.usfirst.frc.team5243.robot.commands.CubeClampSolAuton;
 import org.usfirst.frc.team5243.robot.commands.ClimbCommandAuton;
-import org.usfirst.frc.team5243.robot.commands.CubeDartCommandAuton;
 import org.usfirst.frc.team5243.robot.commands.auton.DriveBack;
 import org.usfirst.frc.team5243.robot.commands.auton.DriveStraight;
 import org.usfirst.frc.team5243.robot.commands.auton.TurnRight;
@@ -39,7 +38,7 @@ public class Pos1_ScaleCloser_Wall extends CommandGroup {
     	addSequential(new DriveBack());
     	addSequential(new ClimbCommandAuton(true, 1));
     	addSequential(new DriveStraight(18));
-    	addSequential(new ChangeCubeSolAuton(Value.kForward));
+    	addSequential(new CubeClampSolAuton(Value.kForward));
     	
     }
 }

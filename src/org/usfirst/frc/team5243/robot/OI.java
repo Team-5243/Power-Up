@@ -8,8 +8,10 @@ package org.usfirst.frc.team5243.robot;
 
 
 import org.usfirst.frc.team5243.robot.commands.ClimbCommandTeleop;
-import org.usfirst.frc.team5243.robot.commands.CubeDartCommandTeleop;
-import org.usfirst.frc.team5243.robot.commands.CubeToggle;
+import org.usfirst.frc.team5243.robot.commands.CubeClampToggle;
+import org.usfirst.frc.team5243.robot.commands.CubeFlipToggle;
+import org.usfirst.frc.team5243.robot.commands.CubeIntakeCommand;
+import org.usfirst.frc.team5243.robot.commands.CubeReleaseCommand;
 
 //import org.usfirst.frc.team5243.robot.commands.ClimbCommand;
 //import org.usfirst.frc.team5243.robot.commands.CubeCommand;
@@ -32,11 +34,11 @@ public class OI {
 	Button lift;
 	Button lower;
 	
-	Button cubeSol;
-	//Button cubeRightSol;
+	Button cubeClampSol;
+	Button cubeFlipSol;
 	
-	Button cubeExtend;
-	Button cubeRetract;
+	Button cubeIntake;
+	Button cubeRelease;
 	
 		// Button switchToPlayback;
 	
@@ -51,20 +53,20 @@ public class OI {
 		lift = new JoystickButton(rightstick, 5);
 		lower = new JoystickButton(rightstick, 3);
 		
-		cubeSol = new JoystickButton(rightstick, 1);
-		//cubeRightSol = new JoystickButton(rightstick, 1);
+		cubeClampSol = new JoystickButton(rightstick, 1);
+		cubeFlipSol = new JoystickButton(rightstick, 2);
 		
-		cubeExtend = new JoystickButton(rightstick, 6);
-		cubeRetract = new JoystickButton(rightstick, 4);
+		cubeIntake = new JoystickButton(rightstick, 6);
+		cubeRelease = new JoystickButton(rightstick, 4);
 		
 		lift.whileHeld(new ClimbCommandTeleop(true));
 		lower.whileHeld(new ClimbCommandTeleop(false));
 		
-		cubeExtend.whileHeld(new CubeDartCommandTeleop(true));
-		cubeRetract.whileHeld(new CubeDartCommandTeleop(false));
-
-		cubeSol.whenPressed(new CubeToggle());
-		//cubeRightSol.whenPressed(new CubeRightToggle());
+		cubeClampSol.whenPressed(new CubeClampToggle());
+		cubeFlipSol.whenPressed(new CubeFlipToggle());
+		
+		cubeIntake.whileHeld(new CubeIntakeCommand());
+		cubeRelease.whileHeld(new CubeReleaseCommand());
 	}
 	
 	/**
